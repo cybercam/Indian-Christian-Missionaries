@@ -1,991 +1,574 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Missionaries Directory | Searchable Database of Christian Missionaries in India</title>
-    <meta name="description" content="Searchable, filterable directory of Christian missionaries who served in India, with detailed information about their work, contributions, and impact."/>
-    <meta name="keywords" content="missionaries, India, Christian missionaries, missionary work, Andhra Pradesh, Telugu, Bible translation"/>
-    
+    <title>Indian Christian Missionaries Directory</title>
+    <meta name="description" content="A searchable and filterable directory of Christian missionaries who served in India, with detailed information on their work, contributions, and lasting impact."/>
+    <meta name="keywords" content="missionaries, India, Christian missionaries, missionary work, Andhra Pradesh, Telugu, Bible translation, history, church"/>
+
     <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="Missionaries Directory | Searchable Database of Christian Missionaries in India"/>
-    <meta property="og:description" content="Searchable, filterable directory of Christian missionaries who served in India."/>
+    <meta property="og:title" content="Indian Christian Missionaries Directory"/>
+    <meta property="og:description" content="Explore the history and contributions of Christian missionaries in India through this interactive database."/>
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="%REPO_URL%"/>
-    
-    <!-- GitHub Pages specific base tag - will be replaced dynamically -->
-    <script>
-        // Calculate the correct base path for GitHub Pages subdirectory support
-        (function() {
-            const pathSegments = window.location.pathname.split('/');
-            const repoName = pathSegments[1];
-            if (repoName && !repoName.includes('.') && repoName !== 'github.io') {
-                document.write('<base href="/' + repoName + '/">');
-            }
-        })();
-    </script>
-    
-    <!-- Favicon - add your own favicon.ico to the repository root -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    
+    <meta property="og:image" content="https://raw.githubusercontent.com/cybercam/Indian-Christian-Missionaries/main/assets/og-image.png">
+    <meta property="og:url" content="https://cybercam.github.io/Indian-Christian-Missionaries/"/>
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://raw.githubusercontent.com/cybercam/Indian-Christian-Missionaries/main/assets/favicon.ico" type="image/x-icon">
+
     <style>
         :root {
-            --bg: #0b1020;
-            --card: #121a35;
-            --muted: #8aa0b7;
-            --text: #e8eef6;
-            --accent: #7dc4ff;
-            --accent-2: #b0ffda;
-            --border: #1e2748;
+            --bg-dark: #0d1117;
+            --bg-light: #161b22;
+            --border-color: #30363d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent-hover: #79c0ff;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
         }
-        
-        * {
-            box-sizing: border-box;
-        }
-        
-        html, body {
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
             margin: 0;
-            padding: 0;
-            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
         }
-        
-        a {
-            color: var(--accent);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        a:hover {
-            color: var(--accent-2);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px;
-        }
-        
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+        a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
+        a:hover { color: var(--accent-hover); text-decoration: underline; }
+
         .header {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .title { font-size: 2.5rem; font-weight: 600; margin: 0; }
+        .subtitle { font-size: 1.1rem; color: var(--text-secondary); margin-top: 0.5rem; }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: 2rem;
         }
-        
-        .title {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 0.3px;
-        }
-        
-        .badge {
-            font-size: 12px;
-            color: var(--muted);
-        }
-        
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-        }
-        
+
         .input, select, button {
-            background: var(--card);
-            color: var(--text);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px 12px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
+            width: 100%;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.6rem 0.8rem;
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        
+
         .input:focus, select:focus {
+            outline: none;
             border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
         }
-        
-        .input {
-            min-width: 240px;
-        }
-        
-        select {
-            min-width: 160px;
-        }
-        
+
+        #search-input { grid-column: 1 / -1; }
+        @media (min-width: 768px) { #search-input { grid-column: span 2; } }
+
         .button {
             cursor: pointer;
-            background: transparent;
-            border-color: var(--border);
-            transition: all 0.2s;
-        }
-        
-        .button:hover {
-            border-color: var(--accent);
-        }
-        
-        .toolbar {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-            gap: 16px;
-            margin-top: 16px;
-        }
-        
-        @media (min-width: 640px) {
-            .grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-        }
-        
-        .card {
-            background: linear-gradient(180deg, rgba(18,26,53,0.95), rgba(11,16,32,0.95));
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            transition: transform 0.2s;
-        }
-        
-        .card:hover {
-            transform: translateY(-3px);
-        }
-        
-        .card-head {
-            display: flex;
-            gap: 14px;
-            padding: 14px;
-            border-bottom: 1px solid var(--border);
-            align-items: center;
-        }
-        
-        .card-img {
-            width: 64px;
-            height: 64px;
-            border-radius: 12px;
-            object-fit: cover;
-            border: 1px solid var(--border);
-            background: #0e1530;
-        }
-        
-        .card-title {
-            font-weight: 700;
-            font-size: 18px;
-        }
-        
-        .card-sub {
-            color: var(--muted);
-            font-size: 12px;
-            margin-top: 2px;
-        }
-        
-        .tags {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-        
-        .tag {
-            font-size: 11px;
-            color: #0b1020;
-            background: linear-gradient(90deg, var(--accent), var(--accent-2));
-            padding: 4px 8px;
-            border-radius: 999px;
-            border: 1px solid #9ad7ff;
-        }
-        
-        .card-body {
-            padding: 14px;
-        }
-        
-        .kv {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 8px;
-        }
-        
-        .kv-row {
-            display: flex;
-            gap: 10px;
-            align-items: baseline;
-        }
-        
-        .kv-key {
-            color: var(--muted);
-            min-width: 120px;
-            font-size: 12px;
-        }
-        
-        .kv-val {
-            font-size: 14px;
-            line-height: 1.3;
-        }
-        
-        .card-foot {
-            padding: 12px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        
-        .link-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            border: 1px solid var(--border);
-            padding: 8px 10px;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: border-color 0.2s;
-        }
-        
-        .link-btn:hover {
-            border-color: var(--accent);
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 8px;
-            margin-top: 10px;
-        }
-        
-        .table th, .table td {
-            text-align: left;
-            padding: 12px 15px;
-            vertical-align: top;
-        }
-        
-        .table th {
-            color: var(--accent);
-            font-weight: 600;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .table tr {
-            background: var(--card);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-        
-        .table tr td {
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .view-toggle {
-            display: flex;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        
-        .segment {
-            padding: 8px 10px;
-            cursor: pointer;
-        }
-        
-        .segment.active {
-            background: var(--card);
-        }
-        
-        #toast {
-            position: fixed;
-            right: 16px;
-            bottom: 16px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 10px 12px;
-            border-radius: 10px;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: all .25s;
-            z-index: 1000;
-        }
-        
-        #toast.show {
-            opacity: 1;
-            transform: none;
-        }
-        
-        /* Accessibility improvements */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-        
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--accent);
-            color: var(--bg);
-            padding: 8px;
-            z-index: 100;
-            transition: top 0.3s;
-        }
-        
-        .skip-link:focus {
-            top: 0;
-        }
-        
-        [role="button"] {
-            cursor: pointer;
-        }
-        
-        /* Better word wrapping for all elements */
-        .card-title, .card-sub, .kv-val, .kv-key, .table td, .table th, .link-btn, a {
-            word-break: break-word;
-            overflow-wrap: anywhere;
-            hyphens: auto;
-            white-space: normal;
-        }
-        
-        /* Loading state */
-        .loading {
-            display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            gap: 0.5rem;
+            background-color: transparent;
         }
-        
-        .spinner {
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top: 3px solid var(--accent);
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Error state */
-        .error-message {
-            background: #b0000020;
-            border: 1px solid #b00000;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 20px 0;
-            color: #ff9f9f;
-        }
-        
-        .error-message h3 {
-            margin-top: 0;
-            color: #ff6b6b;
-        }
-        
-        .error-actions {
+        .button:hover { background-color: var(--bg-light); }
+
+        .toolbar {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
         }
-        
-        /* GitHub Pages footer */
-        .gh-footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
+
+        .view-toggle { display: flex; border: 1px solid var(--border-color); border-radius: 6px; }
+        .view-toggle button { border: none; background: none; padding: 0.5rem 0.8rem; }
+        .view-toggle button.active { background-color: var(--accent); color: var(--bg-dark); border-radius: 5px; }
+        .view-toggle svg { stroke: var(--text-secondary); }
+        .view-toggle button.active svg { stroke: var(--bg-dark); }
+
+
+        #results-grid, #results-table { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .hidden { display: none; }
+
+        /* Card View */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 28px rgba(0,0,0,0.3); }
+
+        .card-header { padding: 1.25rem; border-bottom: 1px solid var(--border-color); }
+        .card-title { font-size: 1.4rem; font-weight: 600; margin: 0; }
+        .card-subtitle { color: var(--text-secondary); font-size: 0.9rem; }
+        .card-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .tag {
+            font-size: 0.75rem;
+            background-color: var(--border-color);
+            padding: 0.25rem 0.6rem;
+            border-radius: 99px;
+            color: var(--text-secondary);
+        }
+
+        .card-body { padding: 1.25rem; flex-grow: 1; }
+        .detail-item {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+        .detail-key { color: var(--text-secondary); font-weight: 500; }
+        .detail-value { word-break: break-word; }
+
+        .card-footer {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        /* Table View */
+        .table-wrapper { overflow-x: auto; }
+        .results-table { width: 100%; border-collapse: collapse; }
+        .results-table th, .results-table td {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .results-table th { color: var(--accent); font-weight: 600; }
+        .results-table tbody tr { transition: background-color 0.2s ease; }
+        .results-table tbody tr:hover { background-color: var(--bg-light); }
+
+        /* Utility Styles */
+        .loading-state, .error-state, .no-results {
             text-align: center;
-            color: var(--muted);
-            font-size: 14px;
+            padding: 4rem;
+            color: var(--text-secondary);
         }
-        
-        .gh-footer a {
-            color: var(--accent);
+        .spinner {
+            border: 4px solid var(--border-color);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+
     </style>
-    
-    <!-- Add this to your repository as favicon.ico -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <!-- Skip to content for accessibility -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    
-    <div class="container" id="main-content">
-        <div class="header">
-            <div>
-                <h1 class="title">Missionaries Directory</h1>
-                <div class="badge">Searchable database of Christian missionaries in India</div>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Indian Christian Missionaries Directory</h1>
+            <p class="subtitle">An Interactive Database of Historical Figures and Their Contributions</p>
+        </header>
+
+        <main>
+            <div class="controls-grid">
+                <input type="text" class="input" id="search-input" placeholder="Search by name, country, keywords..." aria-label="Search missionaries">
+                <select id="country-filter" class="input" aria-label="Filter by Country of Origin">
+                    <option value="">All Countries</option>
+                </select>
+                <select id="org-filter" class="input" aria-label="Filter by Organization">
+                    <option value="">All Organizations</option>
+                </select>
+                <select id="sort-filter" class="input" aria-label="Sort results">
+                    <option value="name_asc">Sort by Name (A-Z)</option>
+                    <option value="name_desc">Sort by Name (Z-A)</option>
+                    <option value="year_asc">Sort by Active Years (Oldest)</option>
+                    <option value="year_desc">Sort by Active Years (Newest)</option>
+                </select>
+                <button id="clear-filters-btn" class="button">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"><path d="M12.5 3.5L3.5 12.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.5 12.5L3.5 3.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Clear Filters
+                </button>
             </div>
-            <div class="view-toggle">
-                <div class="segment active" data-view="cards" aria-pressed="true" role="button">Cards</div>
-                <div class="segment" data-view="table" role="button">Table</div>
+
+            <div class="toolbar">
+                <div id="results-count"></div>
+                <div class="view-toggle">
+                    <button id="view-cards-btn" class="active" aria-label="Card View">
+                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="5" height="10" rx="1" stroke-width="1.5"/><rect x="9" y="3" width="5" height="10" rx="1" stroke-width="1.5"/></svg>
+                    </button>
+                    <button id="view-table-btn" aria-label="Table View">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 5.5H13.5M2.5 10.5H13.5" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    </button>
+                </div>
             </div>
-        </div>
-        
-        <div class="controls">
-            <input type="text" class="input" id="search" placeholder="Search missionaries..." aria-label="Search missionaries">
-            <select id="country-filter" class="input">
-                <option value="">All Countries</option>
-                <option value="India">India</option>
-                <option value="United Kingdom">United Kingdom</option>
-                <option value="United States">United States</option>
-            </select>
-            <select id="org-filter" class="input">
-                <option value="">All Organizations</option>
-                <option value="London Missionary Society">London Missionary Society</option>
-                <option value="American Baptist Mission">American Baptist Mission</option>
-                <option value="Church Missionary Society">Church Missionary Society</option>
-            </select>
-            <select id="sorter" class="input">
-                <option value="name">Sort by Name</option>
-                <option value="country">Sort by Country</option>
-                <option value="org">Sort by Organization</option>
-                <option value="year">Sort by Year</option>
-            </select>
-            <button id="export-btn" class="button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                Export CSV
-            </button>
-        </div>
-        
-        <!-- Loading indicator -->
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
-            <span style="margin-left: 10px;">Loading missionary data...</span>
-        </div>
-        
-        <!-- Error message -->
-        <div id="error-message" class="error-message" style="display: none;">
-            <h3>Data Loading Error</h3>
-            <p>There was a problem loading the missionary directory data. This could be due to:</p>
-            <ul>
-                <li>GitHub Pages rate limiting (if accessing external APIs)</li>
-                <li>Network connectivity issues</li>
-                <li>Incorrect data format in the repository</li>
-            </ul>
-            <div class="error-actions">
-                <button id="retry-btn" class="button">Try Again</button>
-                <a href="https://github.com/your-username/your-repo/issues" target="_blank" class="button">Report Issue</a>
+
+            <div id="loading-state" class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading missionary data...</p>
             </div>
-        </div>
-        
-        <div id="content" style="display: none;">
-            <div id="cards-view" class="grid"></div>
+
+            <div id="error-state" class="error-state hidden">
+                <h3>Failed to Load Data</h3>
+                <p>There was an issue retrieving the missionary directory. Please try again.</p>
+                <button id="retry-btn" class="button">Retry</button>
+            </div>
             
-            <div id="table-view" class="hidden">
-                <table class="table">
-                    <thead></thead>
-                    <tbody></tbody>
-                </table>
+            <div id="results-container">
+                <div id="results-grid" class="results-grid"></div>
+                <div id="results-table" class="table-wrapper hidden">
+                    <table class="results-table">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                 <div id="no-results" class="no-results hidden">
+                    <p>No missionaries match the current filters.</p>
+                </div>
             </div>
-        </div>
-        
-        <div class="gh-footer">
-            <div>Made for GitHub Pages – drop this <code>index.html</code> into a repo and enable Pages.</div>
-            <div><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site" target="_blank" rel="noopener">How to publish</a></div>
-            <div style="margin-top: 10px; font-size: 12px;">
-                This directory is powered by GitHub Pages. Data is loaded from JSON files in the repository.
-            </div>
-        </div>
+        </main>
     </div>
     
-    <div id="toast"></div>
-    
+    <div id="toast" class="toast"></div>
+
     <script>
-        // GitHub Pages base URL helper
-        const getBaseUrl = () => {
-            const pathSegments = window.location.pathname.split('/');
-            const repoName = pathSegments[1];
-            return repoName && !repoName.includes('.') && repoName !== 'github.io' ? 
-                `/${repoName}/` : '/';
-        };
-        
-        // Initialize application state
-        const state = {
-            view: 'cards',
-            data: [],
+    document.addEventListener('DOMContentLoaded', () => {
+        const appState = {
+            allData: [],
             filteredData: [],
-            loading: true,
-            error: null
-        };
-        
-        // DOM elements
-        const searchEl = document.getElementById('search');
-        const countryEl = document.getElementById('country-filter');
-        const orgEl = document.getElementById('org-filter');
-        const sorterEl = document.getElementById('sorter');
-        const exportBtn = document.getElementById('export-btn');
-        const retryBtn = document.getElementById('retry-btn');
-        const cardsView = document.getElementById('cards-view');
-        const tableView = document.querySelector('#table-view table');
-        const contentView = document.getElementById('content');
-        const loadingEl = document.getElementById('loading');
-        const errorEl = document.getElementById('error-message');
-        
-        // Metadata configuration
-        const META = {
-            nameKey: 'Name [Entity Name]',
-            countryKey: 'country_of_origin [Country of Origin of the missionary]',
-            orgKey: 'organization [Organization the missionary was affiliated with]',
-            yearKey: 'active_years_in_india [Years of service in India]',
-            websiteKey: 'URL [Entity URL]',
-            emailKey: 'email [Contact email]',
-            imageKey: 'image_url [Profile image URL]',
-            allKeys: [
-                'Name [Entity Name]',
-                'URL [Entity URL]',
-                'Description [Entity Description]',
-                'country_of_origin [Country of Origin of the missionary]',
-                'organization [Organization the missionary was affiliated with]',
-                'active_years_in_india [Years of service in India]',
-                'key_contributions [Key Contributions categorized by area (e.g., Education, Bible translation, social reforms, medical, women empowerment, orphanages, evangelism)]',
-                'denomination_affiliation [Denomination Affiliation (e.g., Catholic, Lutheran, Baptist, Anglican, Methodist, Pentecostal)]',
-                'major_publications [Major Publications or Translations authored or significantly contributed to (e.g., Telugu Bible, hymnals, books, dictionaries)]',
-                'related_institutions [Related Institutions (e.g., schools, hospitals, churches established)]'
-            ]
-        };
-        
-        // Sample data - in a real implementation, this would be loaded from a JSON file
-        const SAMPLE_DATA = [
-            {
-                "ID [Entity ID]": "123e4567-e89b-12d3-a456-426614174000",
-                "Name [Entity Name]": "John Christian Frederick Heyer",
-                "URL [Entity URL]": "en.wikipedia.org/wiki/John_Christian_Frederick_Heyer",
-                "Description [Entity Description]": "First Lutheran missionary to India",
-                "country_of_origin [Country of Origin of the missionary]": "Germany",
-                "organization [Organization the missionary was affiliated with]": "Evangelical Lutheran Church",
-                "active_years_in_india [Years of service in India]": "1842-1853",
-                "key_contributions [Key Contributions categorized by area (e.g., Education, Bible translation, social reforms, medical, women empowerment, orphanages, evangelism)]": "Established the first Lutheran mission in Andhra Pradesh; founded schools and medical facilities; translated religious texts to Telugu",
-                "denomination_affiliation [Denomination Affiliation (e.g., Catholic, Lutheran, Baptist, Anglican, Methodist, Pentecostal)]": "Lutheran",
-                "major_publications [Major Publications or Translations authored or significantly contributed to (e.g., Telugu Bible, hymnals, books, dictionaries)]": "Telugu hymnals and religious tracts",
-                "related_institutions [Related Institutions (e.g., schools, hospitals, churches established)]": "Guntur Medical Mission, Lutheran schools in Andhra Pradesh"
+            view: 'cards', // 'cards' or 'table'
+            filters: {
+                search: '',
+                country: '',
+                organization: '',
             },
-            {
-                "ID [Entity ID]": "223e4567-e89b-12d3-a456-426614174001",
-                "Name [Entity Name]": "Lyman Jewett",
-                "URL [Entity URL]": "en.wikipedia.org/wiki/Lyman_Jewett",
-                "Description [Entity Description]": "American Baptist missionary in Andhra Pradesh",
-                "country_of_origin [Country of Origin of the missionary]": "United States",
-                "organization [Organization the missionary was affiliated with]": "American Baptist Mission",
-                "active_years_in_india [Years of service in India]": "1848-1870",
-                "key_contributions [Key Contributions categorized by area (e.g., Education, Bible translation, social reforms, medical, women empowerment, orphanages, evangelism)]": "Pioneer of Baptist mission work in Andhra; established churches and schools; contributed to Telugu Bible translation",
-                "denomination_affiliation [Denomination Affiliation (e.g., Catholic, Lutheran, Baptist, Anglican, Methodist, Pentecostal)]": "Baptist",
-                "major_publications [Major Publications or Translations authored or significantly contributed to (e.g., Telugu Bible, hymnals, books, dictionaries)]": "Contributed to Telugu Bible translation",
-                "related_institutions [Related Institutions (e.g., schools, hospitals, churches established)]": "Ongole Baptist Church, Baptist schools in Nellore"
+            sort: 'name_asc',
+        };
+
+        // --- DOM Elements ---
+        const elements = {
+            loading: document.getElementById('loading-state'),
+            error: document.getElementById('error-state'),
+            container: document.getElementById('results-container'),
+            grid: document.getElementById('results-grid'),
+            tableWrapper: document.getElementById('results-table'),
+            tableHead: document.querySelector('#results-table thead'),
+            tableBody: document.querySelector('#results-table tbody'),
+            noResults: document.getElementById('no-results'),
+            count: document.getElementById('results-count'),
+            searchInput: document.getElementById('search-input'),
+            countryFilter: document.getElementById('country-filter'),
+            orgFilter: document.getElementById('org-filter'),
+            sortFilter: document.getElementById('sort-filter'),
+            clearBtn: document.getElementById('clear-filters-btn'),
+            viewCardsBtn: document.getElementById('view-cards-btn'),
+            viewTableBtn: document.getElementById('view-table-btn'),
+            retryBtn: document.getElementById('retry-btn'),
+            toast: document.getElementById('toast'),
+        };
+        
+        // --- Key Normalization ---
+        const KEY_MAP = {
+            id: "ID [Entity ID]",
+            name: "Name [Entity Name]",
+            url: "URL [Entity URL]",
+            description: "Description [Entity Description]",
+            country: "country_of_origin [Country of Origin of the missionary]",
+            organization: "mission_organization [Mission Organization affiliation (if any, e.g., CMS, LMS, American Baptist Telugu Mission)]",
+            activeYears: "active_years_in_india [Active Years in India (format YYYY-YYYY or YYYY-Present)]",
+            contributions: "key_contributions [Key Contributions categorized by area (e.g., Education, Bible translation, social reforms, medical, women empowerment, orphanages, evangelism)]",
+            denomination: "denomination_affiliation [Denomination Affiliation (e.g., Catholic, Lutheran, Baptist, Anglican, Methodist, Pentecostal)]",
+            publications: "major_publications [Major Publications or Translations authored or significantly contributed to (e.g., Telugu Bible, hymnals, books, dictionaries)]",
+            institutions: "related_institutions [Related Institutions that are still active and were founded or significantly influenced by the missionary, especially those in Andhra Pradesh (e.g., specific schools, hospitals, universities)]",
+            legacy: "legacy_lasting_impact [Legacy "
+        };
+        
+        // --- Data Fetching & Processing ---
+        async function loadData() {
+            showLoading();
+            try {
+                // Adjust the path to your JSON file as needed
+                const response = await fetch('./missionaries.json');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const rawData = await response.json();
+                
+                appState.allData = rawData.map(normalizeItem);
+                
+                populateFilters();
+                runFiltersAndRender();
+                showContent();
+            } catch (error) {
+                console.error("Failed to load missionary data:", error);
+                showError();
             }
-        ];
-        
-        // Data loading function with GitHub Pages considerations
-      // Data loading function for production
-const loadData = async () => {
-    try {
-        state.loading = true;
-        state.error = null;
-        loadingEl.style.display = 'flex';
-        errorEl.style.display = 'none';
-        contentView.style.display = 'none';
-        
-        // PRODUCTION CODE: Fetch from your JSON file
-        const baseUrl = getBaseUrl();
-        const response = await fetch(`${baseUrl}data/missionaries.json`);
-        
-        if (!response.ok) {
-            throw new Error(`Failed to load data: ${response.status} ${response.statusText}`);
         }
+
+        const EMPTY_VALUES = new Set(['skipped', 'unknown', '[empty]', 'no major publications found.', 'information unavailable', 'sources unavailable.', 'no languages found.', '']);
+        const isAvailable = (value) => {
+            if (value === null || value === undefined) return false;
+            return !EMPTY_VALUES.has(String(value).toLowerCase().trim());
+        };
         
-        state.data = await response.json();
-        
-        // Update UI
-        state.loading = false;
-        loadingEl.style.display = 'none';
-        contentView.style.display = 'block';
-        
-        // Initial render
-        render();
-        
-        // Optional: Add success message for debugging
-        console.log(`Successfully loaded ${state.data.length} missionary records`);
-    } catch (error) {
-        console.error('Error loading data:', error);
-        state.loading = false;
-        state.error = error.message;
-        loadingEl.style.display = 'none';
-        errorEl.style.display = 'block';
-        contentView.style.display = 'none';
-    }
-};
-        // Apply filters to the data
-        const applyFilters = () => {
-            let filtered = [...state.data];
-            const query = searchEl.value.toLowerCase().trim();
-            const country = countryEl.value;
-            const org = orgEl.value;
+        function normalizeItem(rawItem) {
+            const normalized = {};
+            for (const key in KEY_MAP) {
+                if (key === 'legacy') { // Handle special nested structure for legacy
+                    const legacyObj = rawItem[KEY_MAP.legacy];
+                    if (typeof legacyObj === 'object' && legacyObj !== null) {
+                         const innerKey = Object.keys(legacyObj)[0];
+                         normalized[key] = legacyObj[innerKey];
+                    } else {
+                        normalized[key] = legacyObj;
+                    }
+                } else {
+                    normalized[key] = rawItem[KEY_MAP[key]];
+                }
+            }
+            return normalized;
+        }
+
+        function populateFilters() {
+            const countries = new Set();
+            const organizations = new Set();
+
+            appState.allData.forEach(item => {
+                if (isAvailable(item.country)) countries.add(item.country);
+                if (isAvailable(item.organization)) organizations.add(item.organization);
+            });
+
+            const createOptions = (set) => [...set].sort().map(val => `<option value="${val}">${val}</option>`).join('');
             
-            if (query) {
-                filtered = filtered.filter(item => 
-                    Object.values(item).some(val => 
-                        String(val).toLowerCase().includes(query)
-                    )
+            elements.countryFilter.innerHTML += createOptions(countries);
+            elements.orgFilter.innerHTML += createOptions(organizations);
+        }
+
+        // --- Filtering & Sorting ---
+        function runFiltersAndRender() {
+            let data = [...appState.allData];
+
+            // Filter
+            if (appState.filters.search) {
+                const search = appState.filters.search.toLowerCase();
+                data = data.filter(item => 
+                    Object.values(item).some(val => String(val).toLowerCase().includes(search))
                 );
             }
-            
-            if (country) {
-                filtered = filtered.filter(item => 
-                    item[META.countryKey] === country
-                );
+            if (appState.filters.country) {
+                data = data.filter(item => item.country === appState.filters.country);
             }
-            
-            if (org) {
-                filtered = filtered.filter(item => 
-                    item[META.orgKey] === org
-                );
+            if (appState.filters.organization) {
+                data = data.filter(item => item.organization === appState.filters.organization);
             }
             
             // Sort
-            const sortKey = sorterEl.value;
-            filtered.sort((a, b) => {
+            data.sort((a, b) => {
+                const [key, dir] = appState.sort.split('_');
                 let valA, valB;
-                
-                switch(sortKey) {
-                    case 'name':
-                        valA = a[META.nameKey] || '';
-                        valB = b[META.nameKey] || '';
-                        break;
-                    case 'country':
-                        valA = a[META.countryKey] || '';
-                        valB = b[META.countryKey] || '';
-                        break;
-                    case 'org':
-                        valA = a[META.orgKey] || '';
-                        valB = b[META.orgKey] || '';
-                        break;
-                    case 'year':
-                        valA = a[META.yearKey] || '';
-                        valB = b[META.yearKey] || '';
-                        break;
-                    default:
-                        valA = a[META.nameKey] || '';
-                        valB = b[META.nameKey] || '';
+
+                if (key === 'name') {
+                    valA = a.name || '';
+                    valB = b.name || '';
+                } else if (key === 'year') {
+                    // Extract the first year for sorting
+                    valA = parseInt((a.activeYears || '0').split('-')[0], 10) || 0;
+                    valB = parseInt((b.activeYears || '0').split('-')[0], 10) || 0;
                 }
                 
-                return valA.localeCompare(valB);
+                if (dir === 'asc') {
+                    return valA < valB ? -1 : 1;
+                } else {
+                    return valA > valB ? -1 : 1;
+                }
             });
             
-            state.filteredData = filtered;
-            return filtered;
-        };
-        
-        // Create DOM element helper
-        const create = (tag, className) => {
-            const el = document.createElement(tag);
-            if (className) el.className = className;
-            return el;
-        };
-        
-        // Render cards view
-        const renderCards = (rows) => {
-            cardsView.innerHTML = '';
+            appState.filteredData = data;
+            render();
+        }
+
+        // --- Rendering ---
+        function render() {
+            elements.count.textContent = `${appState.filteredData.length} result(s) found`;
             
-            if (rows.length === 0) {
-                cardsView.innerHTML = '<div class="kv-row" style="padding: 20px; text-align: center; width: 100%;">No missionaries match your search criteria.</div>';
-                return;
-            }
-            
-            rows.forEach(r => {
-                const card = create("div", "card");
-                
-                // Header
-                const head = create("div", "card-head");
-                const img = create("div", "card-img");
-                img.style.background = "var(--card)";
-                img.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
-                head.appendChild(img);
-                
-                const htxt = create("div");
-                const title = create("div", "card-title");
-                title.textContent = r[META.nameKey] || 'Unnamed Missionary';
-                
-                const sub = create("div", "card-sub");
-                sub.textContent = [META.countryKey && r[META.countryKey], META.orgKey && r[META.orgKey]].filter(Boolean).join(" • ");
-                
-                htxt.appendChild(title);
-                htxt.appendChild(sub);
-                
-                const tags = create("div", "tags");
-                if (META.countryKey && r[META.countryKey]) {
-                    const t = create("span", "tag");
-                    t.textContent = r[META.countryKey];
-                    tags.appendChild(t);
-                }
-                if (META.orgKey && r[META.orgKey]) {
-                    const t = create("span", "tag");
-                    t.textContent = r[META.orgKey];
-                    tags.appendChild(t);
-                }
-                if (META.yearKey && r[META.yearKey]) {
-                    const t = create("span", "tag");
-                    t.textContent = r[META.yearKey];
-                    tags.appendChild(t);
-                }
-                htxt.appendChild(tags);
-                head.appendChild(htxt);
-                card.appendChild(head);
-                
-                // Body
-                const body = create("div", "card-body");
-                const kv = create("div", "kv");
-                
-                META.allKeys.forEach(k => {
-                    const val = r[k];
-                    if (!val || [META.nameKey, META.countryKey, META.orgKey, META.imageKey, META.yearKey].includes(k)) return;
-                    
-                    const row = create("div", "kv-row");
-                    const kk = create("div", "kv-key");
-                    kk.textContent = k.split('[')[0].trim();
-                    
-                    const vv = create("div", "kv-val");
-                    let v = (val ?? "").toString();
-                    
-                    if (/^https?:\/\//i.test(v)) {
-                        const a = create("a");
-                        a.href = v;
-                        a.target = "_blank";
-                        a.rel = "noopener";
-                        a.textContent = v;
-                        vv.appendChild(a);
-                    } else {
-                        vv.textContent = v;
-                    }
-                    
-                    row.appendChild(kk);
-                    row.appendChild(vv);
-                    kv.appendChild(row);
-                });
-                
-                body.appendChild(kv);
-                card.appendChild(body);
-                
-                // Footer
-                const foot = create("div", "card-foot");
-                if (META.websiteKey && r[META.websiteKey]) {
-                    const url = r[META.websiteKey].startsWith('http') ? 
-                        r[META.websiteKey] : `https://${r[META.websiteKey]}`;
-                    const a = create("a", "link-btn");
-                    a.href = url;
-                    a.target = "_blank";
-                    a.rel = "noopener";
-                    a.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 1 7 7l-3 3a5 5 0 0 1-7-7"/><path d="M14 11a5 5 0 0 0-7-7L4 7a5 5 0 0 0 7 7"/></svg> Website`;
-                    foot.appendChild(a);
-                }
-                
-                if (META.emailKey && r[META.emailKey]) {
-                    const a = create("a", "link-btn");
-                    a.href = `mailto:${r[META.emailKey]}`;
-                    a.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> Email`;
-                    foot.appendChild(a);
-                }
-                
-                card.appendChild(foot);
-                cardsView.appendChild(card);
-            });
-        };
-        
-        // Render table view
-        const renderTable = (rows) => {
-            tableView.innerHTML = "";
-            
-            if (rows.length === 0) {
-                tableView.innerHTML = '<tr><td colspan="' + META.allKeys.length + '" style="text-align: center; padding: 20px;">No missionaries match your search criteria.</td></tr>';
-                return;
-            }
-            
-            // Build head from all keys (ensure name first)
-            const keys = [...META.allKeys];
-            const nidx = keys.indexOf(META.nameKey);
-            if (nidx > 0) {
-                keys.splice(0, 0, keys.splice(nidx, 1)[0]);
-            }
-            
-            const thead = document.createElement("thead");
-            thead.innerHTML = "<tr>" + keys.map(k => `<th>${k.split('[')[0].trim()}</th>`).join("") + "</tr>";
-            
-            const tbody = document.createElement("tbody");
-            rows.forEach(r => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = keys.map(k => {
-                    let v = (r[k] ?? "").toString();
-                    if (/^https?:\/\//i.test(v)) {
-                        return `<td><a href="${v}" target="_blank" rel="noopener">${v}</a></td>`;
-                    }
-                    if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) {
-                        return `<td><a href="mailto:${v}">${v}</a></td>`;
-                    }
-                    return `<td>${v}</td>`;
-                }).join("");
-                tbody.appendChild(tr);
-            });
-            
-            tableView.appendChild(thead);
-            tableView.appendChild(tbody);
-        };
-        
-        // Main render function
-        const render = () => {
-            const rows = applyFilters();
-            
-            if (state.view === "table") {
-                cardsView.parentElement.classList.add("hidden");
-                tableView.parentElement.classList.remove("hidden");
-                renderTable(rows);
+            if (appState.filteredData.length === 0) {
+                elements.noResults.classList.remove('hidden');
+                elements.grid.classList.add('hidden');
+                elements.tableWrapper.classList.add('hidden');
             } else {
-                tableView.parentElement.classList.add("hidden");
-                cardsView.parentElement.classList.remove("hidden");
-                renderCards(rows);
+                elements.noResults.classList.add('hidden');
+                if (appState.view === 'cards') {
+                    renderCards();
+                } else {
+                    renderTable();
+                }
             }
-            
-            // Update URL
-            const p = new URLSearchParams();
-            if (searchEl.value) p.set("q", searchEl.value);
-            if (countryEl.value) p.set("country", countryEl.value);
-            if (orgEl.value) p.set("org", orgEl.value);
-            if (sorterEl.value !== "name") p.set("sort", sorterEl.value);
-            if (state.view !== "cards") p.set("view", state.view);
-            
-            // Handle GitHub Pages base URL
-            const baseUrl = getBaseUrl();
-            const newPath = baseUrl + (p.toString() ? `?${p.toString()}` : '');
-            history.replaceState(null, "", newPath);
-        };
+        }
         
-        // Export data as CSV
-        const exportCSV = () => {
-            const rows = applyFilters();
-            const keys = META.allKeys;
+        function renderCards() {
+            elements.grid.innerHTML = appState.filteredData.map(createCardHTML).join('');
+            elements.grid.classList.remove('hidden');
+            elements.tableWrapper.classList.add('hidden');
+        }
+
+        function createCardHTML(item) {
+            const createDetail = (key, value) => {
+                if (!isAvailable(value)) return '';
+                const displayValue = String(value).startsWith('http') 
+                    ? `<a href="${value}" target="_blank" rel="noopener noreferrer">${value}</a>`
+                    : value;
+                return `<div class="detail-item"><div class="detail-key">${key}</div><div class="detail-value">${displayValue}</div></div>`;
+            };
+
+            const tags = [item.country, item.denomination, item.activeYears]
+                .filter(isAvailable)
+                .map(tag => `<span class="tag">${tag}</span>`)
+                .join('');
             
-            // Create CSV content
-            const csv = "sep=,\n" + 
-                keys.map(k => `"${k.split('[')[0].trim()}"`).join(",") + "\n" +
-                rows.map(r => keys.map(k => 
-                    `"${(r[k] ?? "").toString().replaceAll('"', '""')}"`
-                ).join(",")).join("\n");
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">${item.name || 'N/A'}</h2>
+                        <p class="card-subtitle">${item.organization || 'No Organization'}</p>
+                        <div class="card-tags">${tags}</div>
+                    </div>
+                    <div class="card-body">
+                        ${createDetail('Legacy', item.legacy)}
+                        ${createDetail('Contributions', item.contributions)}
+                        ${createDetail('Publications', item.publications)}
+                        ${createDetail('Institutions', item.institutions)}
+                    </div>
+                    ${isAvailable(item.url) ? `<div class="card-footer"><a href="https://${item.url.replace(/^https?:\/\//, '')}" target="_blank" rel="noopener noreferrer">Learn More &rarr;</a></div>` : ''}
+                </div>
+            `;
+        }
+
+        function renderTable() {
+            const headers = ['Name', 'Country', 'Organization', 'Active Years', 'Denomination'];
+            const keys = ['name', 'country', 'organization', 'activeYears', 'denomination'];
+
+            elements.tableHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+            elements.tableBody.innerHTML = appState.filteredData.map(item => `
+                <tr>
+                    ${keys.map(key => `<td>${isAvailable(item[key]) ? item[key] : 'N/A'}</td>`).join('')}
+                </tr>
+            `).join('');
             
-            // Create and trigger download
-            const blob = new Blob([csv], {type: "text/csv;charset=utf-8"});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "missionaries_filtered.csv";
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            // Show toast notification
-            showToast("CSV export completed successfully!");
-        };
+            elements.grid.classList.add('hidden');
+            elements.tableWrapper.classList.remove('hidden');
+        }
+
+        // --- UI State Management ---
+        function showLoading() {
+            elements.loading.classList.remove('hidden');
+            elements.error.classList.add('hidden');
+            elements.container.classList.add('hidden');
+        }
+        function showError() {
+            elements.loading.classList.add('hidden');
+            elements.error.classList.remove('hidden');
+            elements.container.classList.add('hidden');
+        }
+        function showContent() {
+            elements.loading.classList.add('hidden');
+            elements.error.classList.add('hidden');
+            elements.container.classList.remove('hidden');
+        }
         
-        // Show toast notification
-        const showToast = (message) => {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        };
-        
-        // Event handlers
-        document.querySelectorAll('.segment').forEach(segment => {
-            segment.addEventListener('click', () => {
-                document.querySelectorAll('.segment').forEach(s => {
-                    s.classList.remove('active');
-                    s.setAttribute('aria-pressed', 'false');
-                });
-                segment.classList.add('active');
-                segment.setAttribute('aria-pressed', 'true');
-                state.view = segment.dataset.view;
-                render();
+        function updateView(newView) {
+            appState.view = newView;
+            elements.viewCardsBtn.classList.toggle('active', newView === 'cards');
+            elements.viewTableBtn.classList.toggle('active', newView === 'table');
+            render();
+        }
+
+        function showToast(message) {
+            elements.toast.textContent = message;
+            elements.toast.classList.add('show');
+            setTimeout(() => elements.toast.classList.remove('show'), 3000);
+        }
+
+        // --- Event Listeners ---
+        function setupEventListeners() {
+            elements.searchInput.addEventListener('input', (e) => {
+                appState.filters.search = e.target.value;
+                runFiltersAndRender();
             });
-        });
-        
-        searchEl.addEventListener('input', render);
-        countryEl.addEventListener('change', render);
-        orgEl.addEventListener('change', render);
-        sorterEl.addEventListener('change', render);
-        exportBtn.addEventListener('click', exportCSV);
-        
-        if (retryBtn) {
-            retryBtn.addEventListener('click', loadData);
+            elements.countryFilter.addEventListener('change', (e) => {
+                appState.filters.country = e.target.value;
+                runFiltersAndRender();
+            });
+            elements.orgFilter.addEventListener('change', (e) => {
+                appState.filters.organization = e.target.value;
+                runFiltersAndRender();
+            });
+            elements.sortFilter.addEventListener('change', (e) => {
+                appState.sort = e.target.value;
+                runFiltersAndRender();
+            });
+            elements.clearBtn.addEventListener('click', () => {
+                appState.filters = { search: '', country: '', organization: '' };
+                elements.searchInput.value = '';
+                elements.countryFilter.value = '';
+                elements.orgFilter.value = '';
+                runFiltersAndRender();
+                showToast("Filters cleared.");
+            });
+            elements.viewCardsBtn.addEventListener('click', () => updateView('cards'));
+            elements.viewTableBtn.addEventListener('click', () => updateView('table'));
+            elements.retryBtn.addEventListener('click', loadData);
         }
-        
-        // Initialize the app
-        const init = () => {
-            // Parse URL parameters
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('q')) searchEl.value = params.get('q');
-            if (params.get('country')) countryEl.value = params.get('country');
-            if (params.get('org')) orgEl.value = params.get('org');
-            if (params.get('sort')) sorterEl.value = params.get('sort');
-            if (params.get('view')) state.view = params.get('view');
-            
-            // Update view toggle buttons
-            if (state.view === 'table') {
-                document.querySelector('[data-view="table"]').classList.add('active');
-                document.querySelector('[data-view="cards"]').classList.remove('active');
-            }
-            
-            // Load data
-            loadData();
-        };
-        
-        // Handle GitHub Pages 404 redirects for SPA
-        if (window.location.hash === '#404') {
-            window.history.replaceState(null, '', window.location.pathname.replace('/404.html', ''));
-        }
-        
-        // Initialize when page is loaded
-        window.addEventListener('load', init);
-        
-        // Add proper title to the document for GitHub Pages
-        document.title = "Missionaries Directory | " + document.title;
-        
-        // Update Open Graph URL with actual repository URL
-        setTimeout(() => {
-            const ogUrl = document.querySelector('meta[property="og:url"]');
-            if (ogUrl) {
-                ogUrl.content = window.location.origin + getBaseUrl();
-            }
-        }, 100);
+
+        // --- Initialization ---
+        setupEventListeners();
+        loadData();
+    });
     </script>
 </body>
 </html>
