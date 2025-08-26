@@ -428,51 +428,6 @@
         .gh-footer a {
             color: var(--accent);
         }
-         .filters-container {
-      background: #f8f9fa;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 15px;
-    }
-    
-    .filter-group {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .filter-group label {
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #495057;
-    }
-    
-    .filter-group select {
-      padding: 12px;
-      border: 1px solid #ced4da;
-      border-radius: 6px;
-      background: white;
-      font-size: 16px;
-      transition: all 0.3s;
-    }
-    
-    .filter-group select:focus {
-      outline: none;
-      border-color: #80bdff;
-      box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-    }
-    
-    .missionary-card {
-      transition: transform 0.3s;
-      border: 1px solid #e0e0e0;
-    }
-    
-    .missionary-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
     </style>
     
     <!-- Add this to your repository as favicon.ico -->
@@ -482,39 +437,79 @@
     <!-- Skip to content for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
-  <main class="container">
-    <!-- ADD FILTER SECTION HERE -->
-    <section class="filters-container">
-      <div class="filter-group">
-        <label for="state-filter">State</label>
-        <select id="state-filter">
-          <option value="">All States</option>
-          <!-- Will be populated dynamically -->
-        </select>
-      </div>
-      
-      <div class="filter-group">
-        <label for="denomination-filter">Denomination</label>
-        <select id="denomination-filter">
-          <option value="">All Denominations</option>
-          <!-- Will be populated dynamically -->
-        </select>
-      </div>
-      
-      <div class="filter-group">
-        <label for="language-filter">Language</label>
-        <select id="language-filter">
-          <option value="">All Languages</option>
-          <!-- Will be populated dynamically -->
-        </select>
-      </div>
-    </section>
-
-    <!-- MISSIONARY CARDS CONTAINER -->
-    <div id="missionaries-container" class="row">
-      <!-- Cards will be populated dynamically -->
-    </div>
-  </main>
+    <div class="container" id="main-content">
+        <div class="header">
+            <div>
+                <h1 class="title">Missionaries Directory</h1>
+                <div class="badge">Searchable database of Christian missionaries in India</div>
+            </div>
+            <div class="view-toggle">
+                <div class="segment active" data-view="cards" aria-pressed="true" role="button">Cards</div>
+                <div class="segment" data-view="table" role="button">Table</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <input type="text" class="input" id="search" placeholder="Search missionaries..." aria-label="Search missionaries">
+            <select id="country-filter" class="input">
+                <option value="">All Countries</option>
+                <option value="India">India</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="United States">United States</option>
+            </select>
+            <select id="org-filter" class="input">
+                <option value="">All Organizations</option>
+                <option value="London Missionary Society">London Missionary Society</option>
+                <option value="American Baptist Mission">American Baptist Mission</option>
+                <option value="Church Missionary Society">Church Missionary Society</option>
+            </select>
+            <select id="sorter" class="input">
+                <option value="name">Sort by Name</option>
+                <option value="country">Sort by Country</option>
+                <option value="org">Sort by Organization</option>
+                <option value="year">Sort by Year</option>
+            </select>
+            <button id="export-btn" class="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export CSV
+            </button>
+        </div>
+        
+        <!-- Loading indicator -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <span style="margin-left: 10px;">Loading missionary data...</span>
+        </div>
+        
+        <!-- Error message -->
+        <div id="error-message" class="error-message" style="display: none;">
+            <h3>Data Loading Error</h3>
+            <p>There was a problem loading the missionary directory data. This could be due to:</p>
+            <ul>
+                <li>GitHub Pages rate limiting (if accessing external APIs)</li>
+                <li>Network connectivity issues</li>
+                <li>Incorrect data format in the repository</li>
+            </ul>
+            <div class="error-actions">
+                <button id="retry-btn" class="button">Try Again</button>
+                <a href="https://github.com/your-username/your-repo/issues" target="_blank" class="button">Report Issue</a>
+            </div>
+        </div>
+        
+        <div id="content" style="display: none;">
+            <div id="cards-view" class="grid"></div>
+            
+            <div id="table-view" class="hidden">
+                <table class="table">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
         
         <div class="gh-footer">
             <div>Made for GitHub Pages – drop this <code>index.html</code> into a repo and enable Pages.</div>
