@@ -607,39 +607,44 @@
         ];
         
         // Data loading function with GitHub Pages considerations
-        const loadData = async () => {
-            try {
-                state.loading = true;
-                state.error = null;
-                loadingEl.style.display = 'flex';
-                errorEl.style.display = 'none';
-                contentView.style.display = 'none';
-                
-                // In a real implementation, you would fetch from a JSON file in your repo
-                // const response = await fetch(`${getBaseUrl()}data/missionaries.json`);
-                // if (!response.ok) throw new Error('Network response was not ok');
-                // state.data = await response.json();
-                
-                // For demo purposes, using sample data
-                state.data = SAMPLE_DATA;
-                
-                // Update UI
-                state.loading = false;
-                loadingEl.style.display = 'none';
-                contentView.style.display = 'block';
-                
-                // Initial render
-                render();
-            } catch (error) {
-                console.error('Error loading data:', error);
-                state.loading = false;
-                state.error = error.message;
-                loadingEl.style.display = 'none';
-                errorEl.style.display = 'block';
-                contentView.style.display = 'none';
-            }
-        };
+      // Data loading function for production
+const loadData = async () => {
+    try {
+        state.loading = true;
+        state.error = null;
+        loadingEl.style.display = 'flex';
+        errorEl.style.display = 'none';
+        contentView.style.display = 'none';
         
+        // PRODUCTION CODE: Fetch from your JSON file
+        const baseUrl = getBaseUrl();
+        const response = await fetch(`${baseUrl}data/missionaries.json`);
+        
+        if (!response.ok) {
+            throw new Error(`Failed to load data: ${response.status} ${response.statusText}`);
+        }
+        
+        state.data = await response.json();
+        
+        // Update UI
+        state.loading = false;
+        loadingEl.style.display = 'none';
+        contentView.style.display = 'block';
+        
+        // Initial render
+        render();
+        
+        // Optional: Add success message for debugging
+        console.log(`Successfully loaded ${state.data.length} missionary records`);
+    } catch (error) {
+        console.error('Error loading data:', error);
+        state.loading = false;
+        state.error = error.message;
+        loadingEl.style.display = 'none';
+        errorEl.style.display = 'block';
+        contentView.style.display = 'none';
+    }
+};
         // Apply filters to the data
         const applyFilters = () => {
             let filtered = [...state.data];
