@@ -336,7 +336,7 @@
             showLoading();
             try {
                 // Adjust the path to your JSON file as needed
-                const response = await fetch('/data/missionaries.json');
+                const response = await fetch('data/missionaries.json');
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const rawData = await response.json();
                 
