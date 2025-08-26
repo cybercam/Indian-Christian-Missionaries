@@ -1,429 +1,986 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Missionaries Directory</title>
-  <meta name="description" content="Searchable, filterable directory of missionaries."/>
-  <style>
-:root{
-  --bg:#0b1020;
-  --card:#121a35;
-  --muted:#8aa0b7;
-  --text:#e8eef6;
-  --accent:#7dc4ff;
-  --accent-2:#b0ffda;
-  --border:#1e2748;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial; background:var(--bg); color:var(--text);}
-a{color:var(--accent)}
-.container{max-width:1200px;margin:0 auto;padding:24px}
-.header{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin-bottom:16px}
-.title{font-size:28px;font-weight:800;letter-spacing:0.3px}
-.badge{font-size:12px;color:var(--muted)}
-.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.input,select,button{background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px 12px;font-size:14px;outline:none}
-.input{min-width:240px}
-select{min-width:160px}
-.button{cursor:pointer}
-.button:hover{border-color:var(--accent)}
-.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:16px;margin-top:16px}
-@media (min-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-@media (min-width:1024px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
-.card{background:linear-gradient(180deg, rgba(18,26,53,0.95), rgba(11,16,32,0.95));border:1px solid var(--border);border-radius:18px;overflow:visible;box-shadow:0 10px 30px rgba(0,0,0,0.25);display:flex;flex-direction:column;min-height:300px;height:auto;}
-.card-head{display:flex;gap:14px;padding:14px;border-bottom:1px solid var(--border);align-items:center}
-.card-img{width:64px;height:64px;border-radius:12px;object-fit:cover;border:1px solid var(--border);background:#0e1530}
-.card-title{font-weight:700;font-size:18px;line-height:1.3;}
-.card-sub{color:var(--muted);font-size:12px;margin-top:2px;line-height:1.4;}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.tag{font-size:11px;color:#0b1020;background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:4px 8px;border-radius:999px;border:1px solid #9ad7ff}
-.card-body{padding:14px;flex:1;overflow:visible;}
-.kv{display:grid;grid-template-columns:1fr; gap:8px}
-.kv-row{display:flex; gap:10px; align-items:baseline;margin-bottom:8px;}
-.kv-key{color:var(--muted);min-width:120px;font-size:12px;flex-shrink:0;}
-.kv-val{font-size:14px;line-height:1.4;flex:1;}
-.card-foot{padding:12px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
-.link-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);padding:8px 10px;border-radius:10px;text-decoration:none}
-.link-btn:hover{border-color:var(--accent)}
-.hidden{display:none}
-.table{width:100%;border-collapse:separate;border-spacing:0 8px;margin-top:10px}
-.table tr{background:var(--card);}
-.table td,.table th{padding:10px 12px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.table tr td:first-child,.table tr th:first-child{border-left:1px solid var(--border);border-top-left-radius:10px;border-bottom-left-radius:10px}
-.table tr td:last-child,.table tr th:last-child{border-right:1px solid var(--border);border-top-right-radius:10px;border-bottom-right-radius:10px}
-.footer{margin-top:28px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.view-toggle{display:flex;border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.segment{padding:8px 10px;cursor:pointer}
-.segment.active{background:var(--card)}
-#toast{position:fixed;right:16px;bottom:16px;background:var(--card);border:1px solid var(--border);padding:10px 12px;border-radius:10px;opacity:0;transform:translateY(8px);transition:all .25s}
-#toast.show{opacity:1;transform:none}
-
-/* Improved text wrapping and visibility */
-.card-title, .card-sub, .kv-val, .kv-key, .table td, .table th, .link-btn, a {
-  word-break: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-  white-space: normal;
-  overflow: visible;
-  text-overflow: clip;
-}
-/* Allow long URLs to wrap gracefully */
-.table td a, .kv-val a {
-  word-break: break-all;
-  overflow-wrap: anywhere;
-}
-/* Avoid layout shift from unbroken strings */
-.card { 
-  min-width: 0; 
-  min-height: auto;
-  height: auto;
-}
-/* Ensure card content is fully visible */
-.kv-val, .kv-key {
-  white-space: normal;
-  overflow: visible;
-}
-  </style>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Missionaries Directory | Searchable Database of Christian Missionaries in India</title>
+    <meta name="description" content="Searchable, filterable directory of Christian missionaries who served in India, with detailed information about their work, contributions, and impact."/>
+    <meta name="keywords" content="missionaries, India, Christian missionaries, missionary work, Andhra Pradesh, Telugu, Bible translation"/>
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Missionaries Directory | Searchable Database of Christian Missionaries in India"/>
+    <meta property="og:description" content="Searchable, filterable directory of Christian missionaries who served in India."/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="%REPO_URL%"/>
+    
+    <!-- GitHub Pages specific base tag - will be replaced dynamically -->
+    <script>
+        // Calculate the correct base path for GitHub Pages subdirectory support
+        (function() {
+            const pathSegments = window.location.pathname.split('/');
+            const repoName = pathSegments[1];
+            if (repoName && !repoName.includes('.') && repoName !== 'github.io') {
+                document.write('<base href="/' + repoName + '/">');
+            }
+        })();
+    </script>
+    
+    <!-- Favicon - add your own favicon.ico to the repository root -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    
+    <style>
+        :root {
+            --bg: #0b1020;
+            --card: #121a35;
+            --muted: #8aa0b7;
+            --text: #e8eef6;
+            --accent: #7dc4ff;
+            --accent-2: #b0ffda;
+            --border: #1e2748;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        a:hover {
+            color: var(--accent-2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .title {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+        
+        .badge {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .input, select, button {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .input:focus, select:focus {
+            border-color: var(--accent);
+        }
+        
+        .input {
+            min-width: 240px;
+        }
+        
+        select {
+            min-width: 160px;
+        }
+        
+        .button {
+            cursor: pointer;
+            background: transparent;
+            border-color: var(--border);
+            transition: all 0.2s;
+        }
+        
+        .button:hover {
+            border-color: var(--accent);
+        }
+        
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        @media (min-width: 640px) {
+            .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+        
+        .card {
+            background: linear-gradient(180deg, rgba(18,26,53,0.95), rgba(11,16,32,0.95));
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .card-head {
+            display: flex;
+            gap: 14px;
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+        
+        .card-img {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            background: #0e1530;
+        }
+        
+        .card-title {
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .card-sub {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 2px;
+        }
+        
+        .tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        
+        .tag {
+            font-size: 11px;
+            color: #0b1020;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid #9ad7ff;
+        }
+        
+        .card-body {
+            padding: 14px;
+        }
+        
+        .kv {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        
+        .kv-row {
+            display: flex;
+            gap: 10px;
+            align-items: baseline;
+        }
+        
+        .kv-key {
+            color: var(--muted);
+            min-width: 120px;
+            font-size: 12px;
+        }
+        
+        .kv-val {
+            font-size: 14px;
+            line-height: 1.3;
+        }
+        
+        .card-foot {
+            padding: 12px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--border);
+            padding: 8px 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: border-color 0.2s;
+        }
+        
+        .link-btn:hover {
+            border-color: var(--accent);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            margin-top: 10px;
+        }
+        
+        .table th, .table td {
+            text-align: left;
+            padding: 12px 15px;
+            vertical-align: top;
+        }
+        
+        .table th {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .table tr {
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .table tr td {
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .view-toggle {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .segment {
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+        
+        .segment.active {
+            background: var(--card);
+        }
+        
+        #toast {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            border-radius: 10px;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all .25s;
+            z-index: 1000;
+        }
+        
+        #toast.show {
+            opacity: 1;
+            transform: none;
+        }
+        
+        /* Accessibility improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        [role="button"] {
+            cursor: pointer;
+        }
+        
+        /* Better word wrapping for all elements */
+        .card-title, .card-sub, .kv-val, .kv-key, .table td, .table th, .link-btn, a {
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            hyphens: auto;
+            white-space: normal;
+        }
+        
+        /* Loading state */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--accent);
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Error state */
+        .error-message {
+            background: #b0000020;
+            border: 1px solid #b00000;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #ff9f9f;
+        }
+        
+        .error-message h3 {
+            margin-top: 0;
+            color: #ff6b6b;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        /* GitHub Pages footer */
+        .gh-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
+        
+        .gh-footer a {
+            color: var(--accent);
+        }
+    </style>
+    
+    <!-- Add this to your repository as favicon.ico -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div>
-        <div class="title">🕊️ Missionaries Directory</div>
-        <div class="badge">Generated on 2025-08-26 08:06</div>
-      </div>
-      <div class="toolbar">
-        <div class="view-toggle" id="viewToggle">
-          <div class="segment active" data-view="cards">Cards</div>
-          <div class="segment" data-view="table">Table</div>
+    <!-- Skip to content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="container" id="main-content">
+        <div class="header">
+            <div>
+                <h1 class="title">Missionaries Directory</h1>
+                <div class="badge">Searchable database of Christian missionaries in India</div>
+            </div>
+            <div class="view-toggle">
+                <div class="segment active" data-view="cards" aria-pressed="true" role="button">Cards</div>
+                <div class="segment" data-view="table" role="button">Table</div>
+            </div>
         </div>
-        <button class="button" id="copyLinkBtn" title="Copy link to this filtered view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy link</button>
-        <button class="button" id="exportBtn" title="Download filtered CSV"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export CSV</button>
-      </div>
+        
+        <div class="controls">
+            <input type="text" class="input" id="search" placeholder="Search missionaries..." aria-label="Search missionaries">
+            <select id="country-filter" class="input">
+                <option value="">All Countries</option>
+                <option value="India">India</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="United States">United States</option>
+            </select>
+            <select id="org-filter" class="input">
+                <option value="">All Organizations</option>
+                <option value="London Missionary Society">London Missionary Society</option>
+                <option value="American Baptist Mission">American Baptist Mission</option>
+                <option value="Church Missionary Society">Church Missionary Society</option>
+            </select>
+            <select id="sorter" class="input">
+                <option value="name">Sort by Name</option>
+                <option value="country">Sort by Country</option>
+                <option value="org">Sort by Organization</option>
+                <option value="year">Sort by Year</option>
+            </select>
+            <button id="export-btn" class="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export CSV
+            </button>
+        </div>
+        
+        <!-- Loading indicator -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <span style="margin-left: 10px;">Loading missionary data...</span>
+        </div>
+        
+        <!-- Error message -->
+        <div id="error-message" class="error-message" style="display: none;">
+            <h3>Data Loading Error</h3>
+            <p>There was a problem loading the missionary directory data. This could be due to:</p>
+            <ul>
+                <li>GitHub Pages rate limiting (if accessing external APIs)</li>
+                <li>Network connectivity issues</li>
+                <li>Incorrect data format in the repository</li>
+            </ul>
+            <div class="error-actions">
+                <button id="retry-btn" class="button">Try Again</button>
+                <a href="https://github.com/your-username/your-repo/issues" target="_blank" class="button">Report Issue</a>
+            </div>
+        </div>
+        
+        <div id="content" style="display: none;">
+            <div id="cards-view" class="grid"></div>
+            
+            <div id="table-view" class="hidden">
+                <table class="table">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="gh-footer">
+            <div>Made for GitHub Pages – drop this <code>index.html</code> into a repo and enable Pages.</div>
+            <div><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site" target="_blank" rel="noopener">How to publish</a></div>
+            <div style="margin-top: 10px; font-size: 12px;">
+                This directory is powered by GitHub Pages. Data is loaded from JSON files in the repository.
+            </div>
+        </div>
     </div>
-
-    <div class="controls">
-      <input id="search" class="input" placeholder="Search by any field (name, country, notes, etc.)"/>
-      <select id="countryFilter" class="hidden"></select>
-      <select id="orgFilter" class="hidden"></select>
-      <select id="sorter">
-        <option value="">Sort by…</option>
-        <option value="name:asc">Name ↑</option>
-        <option value="name:desc">Name ↓</option>
-        <option value="country:asc">Country ↑</option>
-        <option value="country:desc">Country ↓</option>
-        <option value="org:asc">Organization ↑</option>
-        <option value="org:desc">Organization ↓</option>
-      </select>
-      <button class="button" id="clearBtn">Clear</button>
-    </div>
-
-    <div id="cardsView" class="grid"></div>
-    <div id="tableView" class="hidden">
-      <table class="table" id="table"></table>
-    </div>
-
-    <div class="footer">
-      <div>Made for GitHub Pages – drop this <code>index.html</code> into a repo and enable Pages.</div>
-      <div><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site" target="_blank" rel="noopener">How to publish</a></div>
-    </div>
-  </div>
-
-  <div id="toast"></div>
-
-  <script>
-    const META = {"nameKey": "Name [Entity Name]", "countryKey": "denomination_affiliation [Denomination Affiliation (e.g., Catholic, Lutheran, Baptist, Anglican, Methodist, Pentecostal)]", "orgKey": "legacy_lasting_impact [Legacy / Lasting Impact, including institutions founded (schools, colleges, hospitals, churches), movements initiated, or significant societal changes]", "websiteKey": "URL [Entity URL]", "imageKey": null, "emailKey": null, "phoneKey": null, "yearKey": "active_years_in_india [Active Years in India (format YYYY-YYYY or YYYY-Present)]", "notesKey": "Description [Entity Description]", "allKeys": ["ID [Entity ID]", "Name [Entity Name]", "URL [Entity URL]", "Description [Entity Description]", "christian_missionary_check [Individual must be a Christian missionary.]", "christian_missionary_check Reasoning [Reasoning for the match decision]", "christian_missionary_check Citations [Source citations for this match]", "contribution_check [Individual must have contributed to evangelism, education, healthcare, Bible translation, or social reforms.]", "contribution_check Reasoning [Reasoning for the match decision]", "contribution_check Citations [Source citations for this match]", "worked_in_andhra_pradesh_check [Individual must have worked in Andhra Pradesh.]", "worked_in_andhra_pradesh_check Reasoning [Reasoning for the match decision]", "worked_in_andhra_pradesh_check Citations [Source citations for this match]", "worked_in_india_check [Individual must have worked in India.]", "worked_in_india_check Reasoning [Reasoning for the match decision]", "worked_in_india_check Citations [Source citations for this match]", "active_years_in_india [Active Years in India (format YYYY-YYYY or YYYY-Present)]", "active_years_in_india Reasoning [Reasoning for the enrichment data]", "active_years_in_india Citations [Source citations for this enrichment]", "denomination_affiliation [Denomination Affiliation (e.g., Catholic, Lutheran, Baptist, Anglican, Methodist, Pentecostal)]", "denomination_affiliation Reasoning [Reasoning for the enrichment data]", "denomination_affiliation Citations [Source citations for this enrichment]", "legacy_lasting_impact [Legacy / Lasting Impact, including institutions founded (schools, colleges, hospitals, churches), movements initiated, or significant societal changes]", "legacy_lasting_impact Reasoning [Reasoning for the enrichment data]", "legacy_lasting_impact Citations [Source citations for this enrichment]", "major_publications [Major Publications or Translations authored or significantly contributed to (e.g., Telugu Bible, hymnals, books, dictionaries)]", "major_publications Reasoning [Reasoning for the enrichment data]", "major_publications Citations [Source citations for this enrichment]", "related_institutions [Related Institutions that are still active and were founded or significantly influenced by the missionary, especially those in Andhra Pradesh (e.g., specific schools, hospitals, universities)]", "related_institutions Reasoning [Reasoning for the enrichment data]", "related_institutions Citations [Source citations for this enrichment]", "mission_organization [Mission Organization affiliation (if any, e.g., CMS, LMS, American Baptist Telugu Mission)]", "mission_organization Reasoning [Reasoning for the enrichment data]", "mission_organization Citations [Source citations for this enrichment]", "years_of_service_in_india [Total number of years the individual served in India, indicating depth of experience.]", "years_of_service_in_india Reasoning [Reasoning for the enrichment data]", "years_of_service_in_india Citations [Source citations for this enrichment]", "key_contributions [Key Contributions categorized by area (e.g., Education, Bible translation, social reforms, medical, women empowerment, orphanages, evangelism)]", "key_contributions Reasoning [Reasoning for the enrichment data]", "key_contributions Citations [Source citations for this enrichment]", "pastoral_experience [Whether the individual has experience in pastoral care or leading a congregation.]", "pastoral_experience Reasoning [Reasoning for the enrichment data]", "pastoral_experience Citations [Source citations for this enrichment]", "key_achievements_in_andhra_pradesh [Specific accomplishments or impactful contributions made by the individual within Andhra Pradesh.]", "key_achievements_in_andhra_pradesh Reasoning [Reasoning for the enrichment data]", "key_achievements_in_andhra_pradesh Citations [Source citations for this enrichment]", "organizational_affiliation [Name of the missionary organization or church the individual is affiliated with.]", "organizational_affiliation Reasoning [Reasoning for the enrichment data]", "organizational_affiliation Citations [Source citations for this enrichment]", "community_engagement_level [Indicates the extent of the individual's involvement with the local community beyond their direct ministry work.]", "community_engagement_level Reasoning [Reasoning for the enrichment data]", "community_engagement_level Citations [Source citations for this enrichment]", "publications_or_writings [Any books, articles, or papers published by the individual related to their missionary work or theological insights.]", "publications_or_writings Reasoning [Reasoning for the enrichment data]", "publications_or_writings Citations [Source citations for this enrichment]", "funding_sources [Information on how the individual's missionary work is funded (e.g., donations, grants, self-funded).]", "funding_sources Reasoning [Reasoning for the enrichment data]", "funding_sources Citations [Source citations for this enrichment]", "mentorship_or_training_provided [Whether the individual has mentored or trained local leaders or aspiring missionaries.]", "mentorship_or_training_provided Reasoning [Reasoning for the enrichment data]", "mentorship_or_training_provided Citations [Source citations for this enrichment]", "languages_spoken_in_india [List of local languages spoken by the individual in India, crucial for effective communication and cultural integration.]", "languages_spoken_in_india Reasoning [Reasoning for the enrichment data]", "languages_spoken_in_india Citations [Source citations for this enrichment]", "region_of_work [Region of Work in India, specifically detailing work within Andhra Pradesh (e.g., specific districts, cities)]", "region_of_work Reasoning [Reasoning for the enrichment data]", "region_of_work Citations [Source citations for this enrichment]", "challenges_faced_in_ministry [Notable challenges encountered during their service in India and how they were addressed.]", "challenges_faced_in_ministry Reasoning [Reasoning for the enrichment data]", "challenges_faced_in_ministry Citations [Source citations for this enrichment]", "specific_ministry_focus [Details on the primary area of ministry (e.g., evangelism, education, healthcare) and specific projects undertaken.]", "specific_ministry_focus Reasoning [Reasoning for the enrichment data]", "specific_ministry_focus Citations [Source citations for this enrichment]", "educational_background_relevant_to_ministry [The individual's educational qualifications and training relevant to their missionary work (e.g., theological studies, medical degrees).]", "educational_background_relevant_to_ministry Reasoning [Reasoning for the enrichment data]", "educational_background_relevant_to_ministry Citations [Source citations for this enrichment]", "country_of_origin [Country of Origin of the missionary]", "country_of_origin Reasoning [Reasoning for the enrichment data]", "country_of_origin Citations [Source citations for this enrichment]"]};
-    const RAW_DATA = [{"ID [Entity ID]": "060cc2d9-759f-4b59-b71b-4a70d29d2ea3", "Name [Entity Name]": "Robert Turlington Noble", "URL [Entity URL]": "en.wikipedia.org/wiki/Noble_College,_Machilipatnam", "Description [Entity Description]": "", "christian_missionary_check [Individual must be a Christian missionary.]": "yes", "christian_missionary_check Reasoning [Reasoning for the match decision]": "Multiple sources confirm that Robert Turlington Noble was an English missionary sent by the Church Missionary Society who served in Andhra Pradesh and founded Noble College.", "christian_missionary_check Citations [Source citations for this match]": "https://jabberwockybookshop.com/book/9781016030687?v=643216, https://www.amazon.com/Memoir-Rev-Robert-Turlington-Noble/dp/1016030681, https://www.familysearch.org/search/catalog/3417207?availability=Online, https://catalog.hathitrust.org/Record/011536410, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://noblecollegemtm.ac.in/, https://en.wikipedia.org/wiki/List_of_Protestant_missionaries_in_India, https://www.findagrave.com/memorial/271596318/robert_turlington-noble, https://www.facebook.com/groups/MaryJesusdaily/posts/2794621367557679/", "contribution_check [Individual must have contributed to evangelism, education, healthcare, Bible translation, or social reforms.]": "yes", "contribution_check Reasoning [Reasoning for the match decision]": "Multiple sources confirm his contributions to evangelism, education, and social reforms. He founded Noble College, engaged in missionary work, and addressed social issues like sati and child marriage.", "contribution_check Citations [Source citations for this match]": "https://en.wikipedia.org/wiki/List_of_Protestant_missionaries_in_India, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://noblecollegemtm.ac.in/, https://en-academic.com/dic.nsf/enwiki/11826336, https://www.facebook.com/103128723060502/, https://www.indiamart.com/noble-college/aboutus.html?srsltid=AfmBOorN3IZ1QiBFTMiq09cxwcQlPpDlmZXUFO2ez47JLyxXWrYOlNKE, https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://www.amazon.com/Memoir-Robert-Turlington-College-Cambridge/dp/0243892934, https://catalog.hathitrust.org/Record/011536410", "worked_in_andhra_pradesh_check [Individual must have worked in Andhra Pradesh.]": "yes", "worked_in_andhra_pradesh_check Reasoning [Reasoning for the match decision]": "Robert Turlington Noble founded Noble College in 1843 and worked at Masulipatnam, which is now known as Machilipatnam in the Krishna district of Andhra Pradesh. This information is available on the Noble College official website.", "worked_in_andhra_pradesh_check Citations [Source citations for this match]": "https://www.facebook.com/103128723060502/, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://noblecollegemtm.ac.in/, https://www.careerindia.com/colleges/noble-college-krishna-andhra-pradesh-cp176/, https://en.wikipedia.org/wiki/List_of_Protestant_missionaries_in_India, https://www.mycindia.com/college/details/noblecollegekrishna, https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt", "worked_in_india_check [Individual must have worked in India.]": "yes", "worked_in_india_check Reasoning [Reasoning for the match decision]": "Multiple sources explicitly link him to missionary work in Machilipatnam and service among the Telugu people in South India.", "worked_in_india_check Citations [Source citations for this match]": "https://www.facebook.com/103128723060502/, https://noblecollegemtm.ac.in/, https://www.mycindia.com/college/details/noblecollegekrishna, https://www.careerindia.com/colleges/noble-college-krishna-andhra-pradesh-cp176/, https://www.familysearch.org/search/catalog/3417207?availability=Online, https://en.wikipedia.org/wiki/List_of_Protestant_missionaries_in_India, https://www.bottesfordhistory.org.uk/content/war-service/robert-turlington-noble-page", "active_years_in_india [Active Years in India (format YYYY-YYYY or YYYY-Present)]": "1841-1865", "active_years_in_india Reasoning [Reasoning for the enrichment data]": "Multiple independent sources state he arrived/started work in Masulipatnam in 1841 and died there on 1865-10-07; therefore his active years in India are best represented as 1841-1865. The memoir (primary/near-primary), cemetery inscription (Find a Grave referencing tomb inscription), and institutional history (Noble College/Wikipedia backed by references) all align on 1841 arrival and 1865 death; together they provide a consistent, corroborated range.", "active_years_in_india Citations [Source citations for this enrichment]": "https://www.findagrave.com/memorial/271596318/robert_turlington-noble, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://www.bottesfordhistory.org.uk/content/war-service/robert-turlington-noble-page, https://noblecollegemtm.ac.in/, https://catalog.hathitrust.org/Record/011536410", "denomination_affiliation [Denomination Affiliation (e.g., Catholic, Lutheran, Baptist, Anglican, Methodist, Pentecostal)]": "Anglican", "denomination_affiliation Reasoning [Reasoning for the enrichment data]": "Robert Turlington Noble was sent by the Church Missionary Society in England to serve in the areas of both Education and Evangelism in South India. The Church Missionary Society (CMS) is a British Anglican mission society. This links Noble to CMS and through CMS to Anglican / Church of England affiliation.", "denomination_affiliation Citations [Source citations for this enrichment]": "https://samsusa.org/, https://en.wikipedia.org/wiki/Church_Mission_Society, https://library.bu.edu/sthspecialcollections/cms, https://www.britannica.com/topic/Church-Missionary-Society", "legacy_lasting_impact [Legacy / Lasting Impact, including institutions founded (schools, colleges, hospitals, churches), movements initiated, or significant societal changes]": "Robert Turlington Noble (sent by the Church Missionary Society) founded a school at Masulipatnam in 1843 that grew into Noble College, Machilipatnam, and his 22+ years of missionary and educational work helped create a generation of educated Telugu leaders, advanced evangelism and social reform in the region, and left a lasting institutional legacy in Andhra Pradesh.", "legacy_lasting_impact Reasoning [Reasoning for the enrichment data]": "Robert Turlington Noble founded a school at Masulipatnam in 1843 that grew into Noble College, Machilipatnam, and his 22+ years of missionary and educational work helped create a generation of educated Telugu leaders, advanced evangelism and social reform in the region, and left a lasting institutional legacy in Andhra Pradesh. The Wikipedia article on Noble College, Machilipatnam (gives founding date 1843, founder name and role in education and evangelism); Noble College official site (noblecollegemtm.ac.in) which repeats the founding and location information; the full text memoir of Robert Turlington Noble on Archive.org (primary contemporary biographical source describing his missionary work, school founding, long-term influence, and the school\r\ns role in producing educated Telugu leaders); and the FamilySearch catalog entry / HathiTrust record (library catalog entries confirming the memoir publication). These sources are relevant because they directly document Noble\r\ns activities (founding Noble High School in 1843 which later became Noble College), his role as a Church Missionary Society missionary among Telugu people, and contemporary assessments of his impact on education and social reform (e.g., addressing social ills, creating a school called \"the Cambridge of South India\" by visitors).", "legacy_lasting_impact Citations [Source citations for this enrichment]": "https://www.facebook.com/groups/931491007799998/posts/1837690967179993/, https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://www.facebook.com/103128723060502/, https://noblecollegemtm.ac.in/, https://en-academic.com/dic.nsf/enwiki/11826336, https://www.indiamart.com/noble-college/aboutus.html?srsltid=AfmBOorN3IZ1QiBFTMiq09cxwcQlPpDlmZXUFO2ez47JLyxXWrYOlNKE, https://catalog.hathitrust.org/Record/011536410, https://www.amazon.com/Memoir-Robert-Turlington-College-Cambridge/dp/0243892934, https://www.facebook.com/groups/153929174675666/posts/24317160751259171/", "major_publications [Major Publications or Translations authored or significantly contributed to (e.g., Telugu Bible, hymnals, books, dictionaries)]": "No major publications found. The only substantial book in the search results is a biography about him: \"A Memoir of the Rev. Robert Turlington Noble\" (Book, English) by his brother John Noble — this is about Robert T. Noble, not authored or translated by him. Others unknown.", "major_publications Reasoning [Reasoning for the enrichment data]": "I searched the supplied search results for works authored or significantly contributed to by Robert Turlington Noble. The results primarily return a biography/memoir about him written by his brother John Noble. None of the provided search results show a book, translation, hymnal, Bible translation, or other major publication authored or co-authored by Robert Turlington Noble himself. Given the search evidence, the only clearly documented book in the results that relates to him is a memoir written about him (not by him).", "major_publications Citations [Source citations for this enrichment]": "https://books.google.com/books?id=X7QZwgcf6cgC&lr=, https://www.amazon.com/Memoir-Rev-Robert-Turlington-Noble/dp/1016030681, https://www.familysearch.org/search/catalog/3417207?availability=Online, https://catalog.hathitrust.org/Record/011536410, https://archive.org/details/amemoirrevrober00noblgoog, https://www.amazon.com/Memoir-Rev-Robert-Turlington-Noble/dp/1295600641, https://www.amazon.com/Memoir-Robert-Turlington-College-Cambridge/dp/0243892934, https://www.walmart.com/ip/A-Memoir-of-the-Rev-Robert-Turlington-Noble-Paperback-9781016035521/941962314", "related_institutions [Related Institutions that are still active and were founded or significantly influenced by the missionary, especially those in Andhra Pradesh (e.g., specific schools, hospitals, universities)]": "Noble College, College, Machilipatnam; Sharkey Memorial/Sharkey High School (girls), School, Machilipatnam; Vernacular Theological Institution (Masulipatnam), Theological training institution, Machilipatnam; Noble Missionary Parish and Church, Church/Parish, Machilipatnam; Andhra Christian College, College, Guntur", "related_institutions Reasoning [Reasoning for the enrichment data]": "I reviewed the provided search results to identify institutions founded by or closely associated with Rev. Robert Turlington Noble in Andhra Pradesh (Masulipatnam / Machilipatnam). Primary sources used: the Noble College Wikipedia page (gives foundation date, founder, related schools and later history), the Noble College official website (confirms founding by Rev. Noble in 1843), the Church Missionary Society / mission-history article (describes the Noble School, Sharkey school, Vernacular Theological Institution and missionary activity in Masulipatnam), and contemporary listings (Wikimapia) and historical memoirs (Archive.org / HathiTrust entries for the memoir of Rev. Noble). These sources are relevant because they directly discuss Noble's work, the institutions he started or influenced, and the local mission infrastructure in Masulipatnam. Disambiguation: the entity named in the query is Robert Turlington Noble; I excluded similarly named persons. I included only institutions explicitly tied to Noble or to the mission work he led in Masulipatnam. Where sources indicate influence rather than direct founding (for example, mission theological training institutions), I include them with wording that reflects significant association. Key relevant findings from the sources: Noble founded the original native-English school in Masulipatnam in 1843 that became Noble College; he worked with Rev. J. E. Sharkey (Sharkey Memorial / Sharkey High School for girls established 1847 is connected to the same mission milieu); the mission established a Vernacular Theological Institution at Masulipatnam (supplied native mission personnel); Noble's school was later upgraded to high school and then to college (Noble College), and the local mission/CSI institutions and parish structures in Machilipatnam are linked to his legacy. Reliability: Noble College official site and the Wikipedia article summarize institutional history and explicitly name Noble as founder; missiontheologyanglican and historical memoirs (Archive.org / HathiTrust) provide historical context and corroboration about missionary schools and theological training. Possible gaps: some mission-era institutions' formal modern names may differ (e.g., Sharkey Memorial School appears in mission histories and local references), but sources explicitly connect them to the same mission activity in Masulipatnam. I therefore list institutions that are clearly documented as founded by or significantly influenced by Robert Turlington Noble and the CMS mission work in Masulipatnam.", "related_institutions Citations [Source citations for this enrichment]": "https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://www.careers360.com/colleges/noble-college-machilipatnam, https://noblecollegemtm.ac.in/, https://www.missiontheologyanglican.org/article/church-missionary-society-in-coastal-andhra-1850-1950-mediating-change-among-the-malas/, http://wikimapia.org/1520983/Noble-College, https://www.wisdomlib.org/concept/noble-college", "mission_organization [Mission Organization affiliation (if any, e.g., CMS, LMS, American Baptist Telugu Mission)]": "Church Missionary Society", "mission_organization Reasoning [Reasoning for the enrichment data]": "Multiple sources identify Robert Turlington Noble as being sent by the Church Missionary Society (CMS). The Wikipedia page for Noble College states that he was sent by the CMS to serve in education and evangelism in South India. The college's official website and the CSI Noble Missionary Church page also corroborate this affiliation.", "mission_organization Citations [Source citations for this enrichment]": "https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://www.csinmc.com/, https://www.familysearch.org/search/catalog/3417207?availability=Online", "years_of_service_in_india [Total number of years the individual served in India, indicating depth of experience.]": "24 years", "years_of_service_in_india Reasoning [Reasoning for the enrichment data]": "Robert Turlington Noble served in India from 1841 to 1865. This information is supported by his Find a Grave memorial, which records his service from October 28, 1841, until his death. Contemporary memoirs and the Noble College official website also confirm these dates.", "years_of_service_in_india Citations [Source citations for this enrichment]": "https://www.findagrave.com/memorial/271596318/robert_turlington-noble, https://www.familysearch.org/search/catalog/3417207?availability=Online, https://www.amazon.com/Memoir-Robert-Turlington-College-Cambridge/dp/0243892934", "key_contributions [Key Contributions categorized by area (e.g., Education, Bible translation, social reforms, medical, women empowerment, orphanages, evangelism)]": "- Education: Founded a native English school at Masulipatnam in 1843 that later became Noble College; he ran a high-quality, rigorous institution often described in contemporaneous reports as the \"Cambridge of Southern India,\" produced top matriculation candidates, and trained many natives who entered government and clerical posts. His school served as a seedbed for educated Telugu Christians and for the emergence of a native Christian ministry.\n\n- Evangelism / Church planting: Served as a Church Missionary Society missionary among the Telugu people from about 1841 until his death in 1865, combining classroom instruction with evangelistic witness; his educational work deliberately included Christian teaching and contributed to conversions and the formation of local congregations and indigenous clergy.\n\n- Social reform and public influence: Actively opposed social practices he encountered (reports cite his concern about sati, child marriage, untouchability and related abuses) and promoted social change through education and moral example; contemporaries recorded his wide moral influence on pupils and the surrounding region, and his efforts were credited with undermining Hindu superstitions and promoting civilizing reforms.\n\n- Contributions not found in provided sources: No clear evidence in the supplied materials that he carried out formal Bible translation work, established medical missions or hospitals, operated orphanages, or ran specific women's empowerment programs. If those activities are required, further archival research beyond the cited sources is recommended.", "key_contributions Reasoning [Reasoning for the enrichment data]": "The key contributions are derived from multiple sources including the Noble College official site, Wikipedia, and a memoir by John Noble. These sources provide information on Robert Turlington Noble's work in education, evangelism, and social reform. The absence of evidence for contributions in medical missions, orphanages, women's empowerment, and Bible translation is also noted.", "key_contributions Citations [Source citations for this enrichment]": "https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://en.wikipedia.org/wiki/List_of_Protestant_missionaries_in_India, https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://www.facebook.com/groups/MaryJesusdaily/posts/2794621367557679/, https://onewaytheonlyway.com/robert-turlington-noble/amp/, https://www.missiontheologyanglican.org/article/church-missionary-society-in-coastal-andhra-1850-1950-mediating-change-among-the-malas/, https://www.facebook.com/groups/153929174675666/posts/24317160751259171/", "pastoral_experience [Whether the individual has experience in pastoral care or leading a congregation.]": "Yes — ordained in 1840 and served as a Church of England minister (curate at Old Dalby, Leicestershire, 1839–1840) with documented pastoral visits, preaching and congregational leadership, then continued pastoral/missionary ministry in Masulipatnam (Machilipatnam) after 1841.", "pastoral_experience Reasoning [Reasoning for the enrichment data]": "The memoir explicitly states ordination in 1840, service as curate/minister at Old Dalby (Leicestershire, 1839–1840) with documented pastoral visits, preaching and congregational leadership, then continued pastoral/missionary ministry in Masulipatnam (Machilipatnam) after 1841. The college and Wikipedia pages confirm missionary/educational contributions.", "pastoral_experience Citations [Source citations for this enrichment]": "https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://www.facebook.com/groups/597793043656426/posts/9543283679107273/, https://www.facebook.com/groups/153929174675666/posts/24317160751259171/, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://www.familysearch.org/search/catalog/3417207?availability=Online, https://catalog.hathitrust.org/Record/011536410, https://www.csinmc.com/", "key_achievements_in_andhra_pradesh [Specific accomplishments or impactful contributions made by the individual within Andhra Pradesh.]": "Key achievements in Andhra Pradesh by Robert Turlington Noble: \n- Founded a native English school at Masulipatnam on 21 November 1843, which later became Noble High School and was upgraded to Noble College (education).\n- Built the institution into a leading higher‑education centre in the Northern Circars and was described by Sir Charles Trevelyan as the \"Cambridge of South India\" (education, institutional legacy).\n- Prioritised training of educated native teachers and clergy, helping create a cadre of well‑educated Telugu Christians and local schoolmasters (evangelism & education).\n- Conducted evangelistic work among Telugu communities, including baptisms of converts from Brahmin and other castes (evangelism).\n- Helped establish girls' schooling in Masulipatnam through colleagues (Sharkey Memorial school) and promoted female education in the district (education & social reform).\n- Advocated and practised social reforms linked to missionary work (opposed practices such as sati/early marriage in his writings and mission activity) and initiated industrial/vocational education to assist converts' livelihoods (social reform & vocational training).", "key_achievements_in_andhra_pradesh Reasoning [Reasoning for the enrichment data]": "I reviewed the supplied search results about Robert Turlington Noble and his work in Andhra Pradesh. Key sources: the Noble College, Machilipatnam Wikipedia page (gives founding date, school→college timeline, affiliation and notable alumni), the Noble College official site (confirms founding in 1843 at Masulipatnam/Machilipatnam), John Noble's memoir of Robert T. Noble (detailed primary/near-contemporary account of missionary, educational and social work), and a scholarly summary of CMS work in Coastal Andhra (places Noble in the Church Missionary Society's Telugu mission, describes his educational policies, caste approach and conversions). These sources are relevant because they directly document Noble's activities in Masulipatnam (now Machilipatnam) and the Northern Circars region of present-day Andhra Pradesh. Disambiguation: search results consistently refer to the same individual, Robert Turlington Noble, missionary to the Telugu people and founder of the Noble School/College in Masulipatam (Machilipatnam). Potential issue: some modern summaries interpret or critique Noble's caste policies; I used primary/early biography and institutional pages for core factual claims (founding, dates, school→college, educational and missionary focus). All relevant facts below are supported by the cited pages.", "key_achievements_in_andhra_pradesh Citations [Source citations for this enrichment]": "https://www.missiontheologyanglican.org/article/church-missionary-society-in-coastal-andhra-1850-1950-mediating-change-among-the-malas/, https://noblecollegemtm.ac.in/, http://s3-ap-southeast-1.amazonaws.com/ijmer/pdf/volume10/volume10-issue7(11)/7.pdf, https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://en.wikipedia.org/wiki/List_of_Protestant_missionaries_in_India, https://www.familysearch.org/search/catalog/3417207?availability=Online, https://www.noblecollegemtm.ac.in/userfiles/Best%20Practicespdf(1).pdf", "organizational_affiliation [Name of the missionary organization or church the individual is affiliated with.]": "Church Missionary Society", "organizational_affiliation Reasoning [Reasoning for the enrichment data]": "Multiple sources identify Robert Turlington Noble as an English missionary sent by the Church Missionary Society (CMS). The Noble College Wikipedia entry and published biographies/memoirs state that Robert Turlington Noble was sent by the Church Missionary Society (CMS) in England. The Church Missionary Society (CMS) has its own established history showing it sent missionaries to India in the 19th century. The memoir of Robert Turlington Noble identifies Noble as attached to the Church Missionary Society. The most prominent, consistently-cited organizational affiliation for Robert Turlington Noble is the Church Missionary Society.", "organizational_affiliation Citations [Source citations for this enrichment]": "https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://www.britannica.com/topic/Church-Missionary-Society, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://en.wikipedia.org/wiki/Church_Mission_Society, https://books.google.com/books?id=X7QZwgcf6cgC&lr=, https://www.csinmc.com/, https://churchmissionsociety.org/about/our-story/", "community_engagement_level [Indicates the extent of the individual's involvement with the local community beyond their direct ministry work.]": "Community engagement level: Highly engaged — he founded and ran a major school (Noble High School, later Noble College), personally provided scholarships, relief and food to poor pupils, persuaded patrons to fund local educational and welfare work, and shaped regional social improvement through decades of sustained educational and charitable activity.", "community_engagement_level Reasoning [Reasoning for the enrichment data]": "The memoir provides multiple concrete examples of engagement beyond preaching—establishing and personally running a high-standard school, offering financial aid and scholarships, feeding and relieving poor pupils, persuading local European patrons to contribute, seeking a new school building for wider benefit, and influencing local civil servants through education. Institutional sites and summaries corroborate the founding and the school's regional influence (called \"Cambridge of Southern India\" by contemporaries). These activities amount to sustained, broad community engagement in education, social welfare, and local institutional development over two decades.", "community_engagement_level Citations [Source citations for this enrichment]": "https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://www.facebook.com/groups/MaryJesusdaily/posts/2794621367557679/, https://www.facebook.com/groups/153929174675666/posts/24317160751259171/, https://noblecollegemtm.ac.in/, https://onewaytheonlyway.com/robert-turlington-noble/amp/, https://www.amazon.in/Memoir-Rev-Robert-Turlington-Noble/dp/9370970045, https://www.csinmc.com/, https://www.bottesfordhistory.org.uk/content/war-service/robert-turlington-noble-page, https://www.familysearch.org/search/catalog/3417207?availability=Online, https://core.ac.uk/download/pdf/215545605.pdf, https://catalog.hathitrust.org/Record/011536410", "publications_or_writings [Any books, articles, or papers published by the individual related to their missionary work or theological insights.]": "[empty]", "publications_or_writings Reasoning [Reasoning for the enrichment data]": "I searched the provided URLs for publications or writings authored by Robert Turlington Noble that relate to his missionary work or theological insights. The results repeatedly show a biography/memoir about him written by his brother John Noble. These are works about Robert Turlington Noble, not authored by him. The Noble College and related pages confirm his missionary activity and founding of the college but do not list authored books or papers by Robert himself. No search result in the supplied list shows a publication authored by Robert Turlington Noble. Given the item requested (a formatted string listing up to 5 publications authored by the missionary) and the available evidence, there are no identified primary publications by Robert Turlington Noble in the supplied search results. Therefore the correct response for publications_or_writings is an empty string.", "publications_or_writings Citations [Source citations for this enrichment]": "https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://books.google.com/books?id=X7QZwgcf6cgC&lr=, https://southasiacommons.net/artifacts/4996712/a-memoir-of-the-rev-robert-turlington-noble/, https://www.amazon.com/Memoir-Robert-Turlington-College-Cambridge/dp/0243892934, https://catalog.hathitrust.org/Record/011536410, https://www.amazon.com/Memoir-Rev-Robert-Turlington-Noble/dp/1016030681, https://www.familysearch.org/search/catalog/3417207?availability=Online, https://www.walmart.com/ip/A-Memoir-of-the-Rev-Robert-Turlington-Noble-Paperback-9781016035521/941962314", "funding_sources [Information on how the individual's missionary work is funded (e.g., donations, grants, self-funded).]": "Funding sources (historical): Local subscriptions and donations; gifts of property/land from local supporters; invested funds (a Government bond noted in contemporary accounts); and institutional support from the Church Missionary Society (London) after the Society adopted the Telugu mission. No detailed monetary amounts or modern funding streams are given in the available sources.", "funding_sources Reasoning [Reasoning for the enrichment data]": "The historical funding mechanisms for Robert Turlington Noble's missionary/school work are described in the memoir and institutional summaries and consist of local subscriptions/donations, gifts (including land/property), invested funds (a Government bond), and institutional support from the Church Missionary Society (after appeals). No precise monetary amounts or modern funding sources are given in the available records.", "funding_sources Citations [Source citations for this enrichment]": "https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://noblecollegemtm.ac.in/, https://catalog.hathitrust.org/Record/011536410, https://granthsanjeevani.com/jspui/handle/123456789/74959", "mentorship_or_training_provided [Whether the individual has mentored or trained local leaders or aspiring missionaries.]": "Yes", "mentorship_or_training_provided Reasoning [Reasoning for the enrichment data]": "Robert Turlington Noble founded a school in Masulipatnam (1843) that became Noble College, taught long daily hours, gave scholarships and personal instruction, and produced pupils who became local leaders and clergy, demonstrating direct mentorship and training of local leaders and aspiring missionaries.", "mentorship_or_training_provided Citations [Source citations for this enrichment]": "https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, http://www.noblecollegemtm.ac.in/userfiles/Best%20Practicespdf(1).pdf", "languages_spoken_in_india [List of local languages spoken by the individual in India, crucial for effective communication and cultural integration.]": "Telugu, Hindi, Urdu, English", "languages_spoken_in_india Reasoning [Reasoning for the enrichment data]": "The archive memoir explicitly lists English, Telugu, Hindustani, and Persian as languages used in Robert Turlington Noble's educational work. Given that the user requested languages that are officially recognized in India, the historical term \"Hindustani\" is mapped to the modern, officially recognized languages Hindi and Urdu. Persian is excluded because it is not an officially recognized language in India's Eighth Schedule. Therefore, the selected languages are Telugu, Hindi, Urdu, and English.", "languages_spoken_in_india Citations [Source citations for this enrichment]": "https://teluguworld.org/languages-of-andhra-pradesh.html, http://twintelsta.weebly.com/machilipatnam.html, http://s3-ap-southeast-1.amazonaws.com/ijmer/pdf/volume10/volume10-issue7(11)/7.pdf, https://en.wikipedia.org/wiki/Andhra_Pradesh", "region_of_work [Region of Work in India, specifically detailing work within Andhra Pradesh (e.g., specific districts, cities)]": "Krishna District, Andhra Pradesh, India; Machilipatnam, Andhra Pradesh, India", "region_of_work Reasoning [Reasoning for the enrichment data]": "Robert Turlington Noble founded Noble College in 1843 and worked at Masulipatnam, which is now known as Machilipatnam in the Krishna district of Andhra Pradesh. Multiple sources confirm his contributions to evangelism, education, and social reforms. He founded Noble College, engaged in missionary work, and addressed social issues like sati and child marriage. Multiple sources explicitly link him to missionary work in Machilipatnam and service among the Telugu people in South India.", "region_of_work Citations [Source citations for this enrichment]": "https://www.findagrave.com/memorial/271596318/robert_turlington-noble, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://www.csinmc.com/about/krishna-godavari-diocese, https://www.csinmc.com/, https://noblecollegemtm.ac.in/, https://www.facebook.com/groups/MaryJesusdaily/posts/2794621367557679/", "challenges_faced_in_ministry [Notable challenges encountered during their service in India and how they were addressed.]": "He faced significant ecclesiastical opposition (station chaplain and a Bishop's commissary tried to block private meetings and threatened to withdraw his licence) and local social resistance—especially caste-related reluctance to convert and slow uptake among higher castes. He appealed to higher church authorities to restore his licence and defended the legality of missionary meetings, while pursuing education and vocational programs (founding the school that became Noble College, reviving industrial training and training native catechists/clergy) to overcome social resistance and build local leadership.", "challenges_faced_in_ministry Reasoning [Reasoning for the enrichment data]": "Step-by-step reasoning and source use:\n\n1) Identify relevant primary sources in the provided search_results: the full text memoir of Robert Turlington Noble (archive.org), the Noble College official site (noblecollegemtm.ac.in / college news), the Church Missionary Society history article (missiontheologyanglican.org) and the Noble College / Wikipedia snippets in the input. These sources directly discuss Noble's ministry at Masulipatnam (Machilipatnam) and note challenges he faced. The memoir (archive.org) is a primary contemporary/account biography and is reliable for first-hand details about opposition and how he responded; the Noble College site and regional mission-history article summarize institutional and social challenges (caste resistance, slow conversions) and educational responses, and are relevant for verifying contributions and measures taken.\n\n2) Disambiguation: the query targets Robert Turlington Noble (exact name). All selected sources refer to the same individual (Rev. R. T. Noble), missionary in Masulipatnam who founded Noble College in 1843. No similarly named persons were used.\n\n3) Extracted challenge items from sources:\n- Ecclesiastical opposition and canonical disputes: the memoir records attempts by the station chaplain and the Commissary of the Bishop to block private meetings and to withdraw Noble's license for officiating (archive.org). Noble resigned his license temporarily, appealed to the Parent Committee and to higher ecclesiastical authority (Archbishop/ Bishop-designate) and ultimately obtained a fresh license when the new Bishop arrived; he defended the lawfulness of missionary meetings.\n- Local civil/military restrictions: memoir notes attempts to prevent missionaries holding private prayer/exposition meetings with European civilians/officers; appeals and higher authority vindicated him.\n- Social and cultural resistance, caste-related difficulties and slow conversions: mission-history sources note slow conversions among higher castes, tensions over caste policy (Noble reportedly excluded some lower-caste groups from school admission early on, which caused dissatisfaction with committees), and general resistance among local populations; these were addressed by emphasis on education, vocational/industrial training, and development of native lay and clerical leadership (schools, industrial training, training vernacular clergy) to foster conversions and social change (missiontheologyanglican.org; noble college site).\n\n4) Measures taken summarized from sources:\n- Appealed to and obtained higher ecclesiastical support to restore his license and preserve the right to hold meetings (archive.org memoir). \n- Focused on education and vocational training (founded the school that became Noble College, revived industrial school, trained native catechists and clergy) to overcome social resistance and provide social uplift that supported evangelistic work (noblecollegemtm.ac.in; missiontheologyanglican.org).\n\nSources' reliability: the memoir (archive.org) is a digitized historical primary/biographical text by his brother, suitable for ministry details; the Noble College official site is authoritative on institutional founding and legacy; the mission-history article is a researched secondary source summarizing CMS activity and social/contextual challenges.\n\nAny gaps: exact details of internal policy changes or every administrative step are summarized in the memoir and mission histories; where fine-grained administrative records are not in the snippets, the summary focuses on documented notable challenges and the clear measures taken.", "challenges_faced_in_ministry Citations [Source citations for this enrichment]": "https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://www.missiontheologyanglican.org/article/church-missionary-society-in-coastal-andhra-1850-1950-mediating-change-among-the-malas/, https://www.amazon.com/Memoir-Robert-Turlington-College-Cambridge/dp/0243892934, https://catalog.hathitrust.org/Record/011536410, https://www.familysearch.org/search/catalog/3417207?availability=Online, https://www.csinmc.com/, https://www.amazon.com/Memoir-Rev-Robert-Turlington-Noble/dp/1295600641, https://archive.org/details/amemoirrevrober00noblgoog", "specific_ministry_focus [Details on the primary area of ministry (e.g., evangelism, education, healthcare) and specific projects undertaken.]": "- Education: Founded Noble School/College, focusing on English education for higher-caste Telugu youth.\n- Evangelism: Missionary work among the Telugu people, aiming to develop a native Christian ministry.\n- Social reform: Campaigned against practices like sati and child marriage, promoting social uplift.\n- Vocational training: Promoted industrial and vocational education to support converts' livelihoods.", "specific_ministry_focus Reasoning [Reasoning for the enrichment data]": "Based on the provided sources, Robert Turlington Noble's ministry focused on education, evangelism, social reform, and vocational training. These areas are consistently highlighted across the sources, including his biography, the history of Noble College, and scholarly articles about missionary activities in Andhra Pradesh.", "specific_ministry_focus Citations [Source citations for this enrichment]": "https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://www.missiontheologyanglican.org/article/church-missionary-society-in-coastal-andhra-1850-1950-mediating-change-among-the-malas/, https://onewaytheonlyway.com/robert-turlington-noble/amp/, https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://noblecollegemtm.ac.in/, https://www.amazon.com/Memoir-Robert-Turlington-College-Cambridge/dp/0365480134, https://www.facebook.com/groups/153929174675666/posts/24317160751259171/, https://www.familysearch.org/search/catalog/3417207?availability=Online, https://www.amazon.com/Memoir-Robert-Turlington-College-Cambridge/dp/0243892934", "educational_background_relevant_to_ministry [The individual's educational qualifications and training relevant to their missionary work (e.g., theological studies, medical degrees.)]": "Educated at Oakham School (Rutland) and matriculated at Cambridge University; he graduated B.A. from Sidney Sussex College, Cambridge. No separate formal theological or medical training is recorded in the cited biographical memoir or the cited institutional pages (educational background relevant to ministry beyond the Cambridge B.A. not available).", "educational_background_relevant_to_ministry Reasoning [Reasoning for the enrichment data]": "The memoir and catalog state schooling at Oakham and a BA from Sidney Sussex College, Cambridge; no explicit record of separate theological seminary training is available in these sources. The memoir is the principal source for educational details; it mentions Cambridge colleges and a B.A. but does not describe formal theological seminary training. If additional archival records (e.g., Church Missionary Society ordination records or Cambridge college registers) were consulted they might show clerical training or ordination dates, but those were not present in the provided search results.", "educational_background_relevant_to_ministry Citations [Source citations for this enrichment]": "https://archive.org/stream/amemoirrevrober00noblgoog/amemoirrevrober00noblgoog_djvu.txt, https://www.amazon.com/Memoir-Robert-Turlington-College-Cambridge/dp/0365480134, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://jabberwockybookshop.com/book/9781016030687?v=643216, https://catalog.hathitrust.org/Record/011536410", "country_of_origin [Country of Origin of the missionary]": "United Kingdom", "country_of_origin Reasoning [Reasoning for the enrichment data]": "Multiple sources identify Robert Turlington Noble as an English missionary sent by the Church Missionary Society who founded Noble College, Machilipatnam in Andhra Pradesh. The Noble College official website and Wikipedia explicitly call him an English missionary and note he was sent by the Church Missionary Society in England. Therefore the country of origin is the United Kingdom.", "country_of_origin Citations [Source citations for this enrichment]": "https://www.wikitree.com/wiki/Beasley-2587, https://en.wikipedia.org/wiki/Noble_College,_Machilipatnam, https://www.amazon.com/Memoir-Robert-Turlington-College-Cambridge/dp/0243892934, https://catalog.hathitrust.org/Record/011536410, https://commons.wikimedia.org/wiki/File:A_Memoir_of_the_Rev._Robert_Turlington_Noble-_Missionary_to_the_Telugu_People_in_South_India_(IA_amemoirrevrober00noblgoog).pdf"}];
-  </script>
-<script>
-(() => {
-  // -------- helpers
-  const $ = (s) => document.querySelector(s);
-  const create = (t, cls) => { const el = document.createElement(t); if (cls) el.className = cls; return el; };
-  const N = (v) => (v == null ? "" : String(v));
-  const labelize = (k) => (k.split(" [")[0] || k).replace(/_/g, " ").trim();
-  const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const domainish = /^(?:https?:\/\/)?(?:www\.)?([a-z0-9-]+\.)+[a-z]{2,}(?:\/.*)?$/i;
-  const toUrl = (s) => {
-    s = (s || "").trim();
-    if (!s) return "";
-    if (/^https?:\/\//i.test(s)) return s;
-    if (domainish.test(s)) return "https://" + s;
-    return "";
-  };
-  const toast = (msg) => { const t = $("#toast"); if (!t) return; t.textContent = msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 1800); };
-  const debounce = (fn, ms=150) => { let id; return (...a)=>{ clearTimeout(id); id=setTimeout(()=>fn(...a), ms); }; };
-
-  // -------- DOM refs from your HTML
-  const searchEl  = $("#search");
-  const countryEl = $("#countryFilter");
-  const orgEl     = $("#orgFilter");
-  const sorterEl  = $("#sorter");
-  const clearBtn  = $("#clearBtn");
-  const cardsGrid = $("#cardsView");
-  const tableWrap = $("#tableView");
-  const tableEl   = $("#table");
-  const viewToggle= $("#viewToggle");
-  const copyLink  = $("#copyLinkBtn");
-  const exportBtn = $("#exportBtn");
-  const controls  = document.querySelector(".controls");
-
-  // -------- data prep
-  const HIDE_RX = /(Reasoning|Citations|check\b)/i; // hide these in card body
-  const allowedSearchKeys = META.allKeys.filter(k => k && !HIDE_RX.test(k));
-  const data = RAW_DATA.map((row, idx) => {
-    const m = { ...row, __id: idx, __searchMap: {} };
-    m.__search = allowedSearchKeys.map(k => N(row[k])).join(" ").toLowerCase();
-    allowedSearchKeys.forEach(k => m.__searchMap[k] = N(row[k]).toLowerCase());
-    return m;
-  });
-
-  // -------- build a "Field" selector (All fields or a single column)
-  const fieldSel = document.createElement("select");
-  fieldSel.id = "fieldFilter";
-  fieldSel.className = "input";
-  fieldSel.innerHTML = `<option value="">All fields</option>` +
-    allowedSearchKeys.map(k => `<option value="${encodeURIComponent(k)}">${labelize(k)}</option>`).join("");
-  // insert just after the search input
-  controls.insertBefore(fieldSel, countryEl);
-
-  // -------- populate Country/Org filters if sensible
-  function setupFilter(selectEl, key) {
-    const col = META[key];
-    if (!col) return false;
-    const vals = Array.from(new Set(data.map(r => N(r[col]).trim()).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
-    // avoid a 500-item dropdown
-    if (vals.length === 0 || vals.length > 60) return false;
-    selectEl.classList.remove("hidden");
-    const nice = key === "countryKey" ? "All (any)" : "All (any)";
-    selectEl.innerHTML = `<option value="">${nice}</option>` + vals.map(v => `<option value="${v}">${v}</option>`).join("");
-    return true;
-  }
-  const hasCountry = setupFilter(countryEl, "countryKey");
-  const hasOrg     = setupFilter(orgEl, "orgKey");
-
-  // -------- init state from URL
-  const params = new URLSearchParams(location.search);
-  searchEl.value = params.get("q") || "";
-  try { fieldSel.value = params.get("field") || ""; } catch {}
-  if (hasCountry) countryEl.value = params.get("country") || "";
-  if (hasOrg)     orgEl.value     = params.get("org") || "";
-  sorterEl.value  = params.get("sort") || "";
-  const state = { view: params.get("view") || "cards" };
-  viewToggle.querySelectorAll(".segment").forEach(seg => {
-    seg.classList.toggle("active", seg.getAttribute("data-view") === state.view);
-  });
-
-  // -------- derive which keys to show in card body (compact)
-  const usedHead = new Set([META.nameKey, META.countryKey, META.orgKey, META.imageKey, META.yearKey]);
-  const CARD_KEYS = META.allKeys.filter(k =>
-    k && !usedHead.has(k) && !HIDE_RX.test(k) && k !== "ID [Entity ID]"
-  ).slice(0, 12); // first dozen readable fields
-
-  // -------- filtering, sorting
-  function applyFilters() {
-    const q = searchEl.value.trim().toLowerCase();
-    const field = decodeURIComponent(fieldSel.value || "");
-    const country = hasCountry ? countryEl.value : "";
-    const org     = hasOrg     ? orgEl.value     : "";
-
-    let out = data.filter(r => {
-      let ok = true;
-      if (q) ok = field ? (r.__searchMap[field] || "").includes(q) : r.__search.includes(q);
-      if (ok && hasCountry && country) ok = N(r[META.countryKey]) === country;
-      if (ok && hasOrg && org)         ok = N(r[META.orgKey])     === org;
-      return ok;
-    });
-
-    const [k, dir] = (sorterEl.value || "").split(":");
-    const keyMap = { name: META.nameKey, country: META.countryKey, org: META.orgKey };
-    if (k && keyMap[k]) {
-      const col = keyMap[k];
-      out.sort((a,b) => N(a[col]).localeCompare(N(b[col]), undefined, {numeric:true}) * (dir === "desc" ? -1 : 1));
-    }
-    return out;
-  }
-
-  // -------- renderers
-  function renderCards(rows) {
-    cardsGrid.innerHTML = "";
-    rows.forEach(r => {
-      const card = create("div","card");
-      const head = create("div","card-head");
-
-      if (META.imageKey && r[META.imageKey]) {
-        const img = create("img","card-img");
-        img.src = r[META.imageKey];
-        img.alt = N(r[META.nameKey]) || "photo";
-        head.appendChild(img);
-      }
-
-      const htxt = create("div");
-      const title = create("div","card-title");
-      title.textContent = N(r[META.nameKey]) || "—";
-      const sub = create("div","card-sub");
-      sub.textContent = [META.countryKey && r[META.countryKey], META.orgKey && r[META.orgKey]]
-        .filter(Boolean).join(" • ");
-      htxt.appendChild(title);
-      htxt.appendChild(sub);
-
-      const tags = create("div","tags");
-      if (META.countryKey && r[META.countryKey]) { const t = create("span","tag"); t.textContent = r[META.countryKey]; tags.appendChild(t); }
-      if (META.orgKey && r[META.orgKey])         { const t = create("span","tag"); t.textContent = labelize(META.orgKey); tags.appendChild(t); }
-      if (META.yearKey && r[META.yearKey])       { const t = create("span","tag"); t.textContent = r[META.yearKey]; tags.appendChild(t); }
-      htxt.appendChild(tags);
-
-      head.appendChild(htxt);
-      card.appendChild(head);
-
-      const body = create("div","card-body");
-      const kv = create("div","kv");
-
-      CARD_KEYS.forEach(k => {
-        const val = N(r[k]);
-        if (!val) return;
-        const row = create("div","kv-row");
-        const kk = create("div","kv-key"); kk.textContent = labelize(k);
-        const vv = create("div","kv-val");
-
-        const url = toUrl(val);
-        if (url) {
-          const a = create("a"); a.href = url; a.target="_blank"; a.rel="noopener"; a.textContent = val;
-          vv.appendChild(a);
-        } else if (emailRx.test(val)) {
-          const a = create("a"); a.href = "mailto:"+val; a.textContent = val; vv.appendChild(a);
-        } else {
-          vv.textContent = val;
+    
+    <div id="toast"></div>
+    
+    <script>
+        // GitHub Pages base URL helper
+        const getBaseUrl = () => {
+            const pathSegments = window.location.pathname.split('/');
+            const repoName = pathSegments[1];
+            return repoName && !repoName.includes('.') && repoName !== 'github.io' ? 
+                `/${repoName}/` : '/';
+        };
+        
+        // Initialize application state
+        const state = {
+            view: 'cards',
+            data: [],
+            filteredData: [],
+            loading: true,
+            error: null
+        };
+        
+        // DOM elements
+        const searchEl = document.getElementById('search');
+        const countryEl = document.getElementById('country-filter');
+        const orgEl = document.getElementById('org-filter');
+        const sorterEl = document.getElementById('sorter');
+        const exportBtn = document.getElementById('export-btn');
+        const retryBtn = document.getElementById('retry-btn');
+        const cardsView = document.getElementById('cards-view');
+        const tableView = document.querySelector('#table-view table');
+        const contentView = document.getElementById('content');
+        const loadingEl = document.getElementById('loading');
+        const errorEl = document.getElementById('error-message');
+        
+        // Metadata configuration
+        const META = {
+            nameKey: 'Name [Entity Name]',
+            countryKey: 'country_of_origin [Country of Origin of the missionary]',
+            orgKey: 'organization [Organization the missionary was affiliated with]',
+            yearKey: 'active_years_in_india [Years of service in India]',
+            websiteKey: 'URL [Entity URL]',
+            emailKey: 'email [Contact email]',
+            imageKey: 'image_url [Profile image URL]',
+            allKeys: [
+                'Name [Entity Name]',
+                'URL [Entity URL]',
+                'Description [Entity Description]',
+                'country_of_origin [Country of Origin of the missionary]',
+                'organization [Organization the missionary was affiliated with]',
+                'active_years_in_india [Years of service in India]',
+                'key_contributions [Key Contributions categorized by area (e.g., Education, Bible translation, social reforms, medical, women empowerment, orphanages, evangelism)]',
+                'denomination_affiliation [Denomination Affiliation (e.g., Catholic, Lutheran, Baptist, Anglican, Methodist, Pentecostal)]',
+                'major_publications [Major Publications or Translations authored or significantly contributed to (e.g., Telugu Bible, hymnals, books, dictionaries)]',
+                'related_institutions [Related Institutions (e.g., schools, hospitals, churches established)]'
+            ]
+        };
+        
+        // Sample data - in a real implementation, this would be loaded from a JSON file
+        const SAMPLE_DATA = [
+            {
+                "ID [Entity ID]": "123e4567-e89b-12d3-a456-426614174000",
+                "Name [Entity Name]": "John Christian Frederick Heyer",
+                "URL [Entity URL]": "en.wikipedia.org/wiki/John_Christian_Frederick_Heyer",
+                "Description [Entity Description]": "First Lutheran missionary to India",
+                "country_of_origin [Country of Origin of the missionary]": "Germany",
+                "organization [Organization the missionary was affiliated with]": "Evangelical Lutheran Church",
+                "active_years_in_india [Years of service in India]": "1842-1853",
+                "key_contributions [Key Contributions categorized by area (e.g., Education, Bible translation, social reforms, medical, women empowerment, orphanages, evangelism)]": "Established the first Lutheran mission in Andhra Pradesh; founded schools and medical facilities; translated religious texts to Telugu",
+                "denomination_affiliation [Denomination Affiliation (e.g., Catholic, Lutheran, Baptist, Anglican, Methodist, Pentecostal)]": "Lutheran",
+                "major_publications [Major Publications or Translations authored or significantly contributed to (e.g., Telugu Bible, hymnals, books, dictionaries)]": "Telugu hymnals and religious tracts",
+                "related_institutions [Related Institutions (e.g., schools, hospitals, churches established)]": "Guntur Medical Mission, Lutheran schools in Andhra Pradesh"
+            },
+            {
+                "ID [Entity ID]": "223e4567-e89b-12d3-a456-426614174001",
+                "Name [Entity Name]": "Lyman Jewett",
+                "URL [Entity URL]": "en.wikipedia.org/wiki/Lyman_Jewett",
+                "Description [Entity Description]": "American Baptist missionary in Andhra Pradesh",
+                "country_of_origin [Country of Origin of the missionary]": "United States",
+                "organization [Organization the missionary was affiliated with]": "American Baptist Mission",
+                "active_years_in_india [Years of service in India]": "1848-1870",
+                "key_contributions [Key Contributions categorized by area (e.g., Education, Bible translation, social reforms, medical, women empowerment, orphanages, evangelism)]": "Pioneer of Baptist mission work in Andhra; established churches and schools; contributed to Telugu Bible translation",
+                "denomination_affiliation [Denomination Affiliation (e.g., Catholic, Lutheran, Baptist, Anglican, Methodist, Pentecostal)]": "Baptist",
+                "major_publications [Major Publications or Translations authored or significantly contributed to (e.g., Telugu Bible, hymnals, books, dictionaries)]": "Contributed to Telugu Bible translation",
+                "related_institutions [Related Institutions (e.g., schools, hospitals, churches established)]": "Ongole Baptist Church, Baptist schools in Nellore"
+            }
+        ];
+        
+        // Data loading function with GitHub Pages considerations
+        const loadData = async () => {
+            try {
+                state.loading = true;
+                state.error = null;
+                loadingEl.style.display = 'flex';
+                errorEl.style.display = 'none';
+                contentView.style.display = 'none';
+                
+                // In a real implementation, you would fetch from a JSON file in your repo
+                // const response = await fetch(`${getBaseUrl()}data/missionaries.json`);
+                // if (!response.ok) throw new Error('Network response was not ok');
+                // state.data = await response.json();
+                
+                // For demo purposes, using sample data
+                state.data = SAMPLE_DATA;
+                
+                // Update UI
+                state.loading = false;
+                loadingEl.style.display = 'none';
+                contentView.style.display = 'block';
+                
+                // Initial render
+                render();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                state.loading = false;
+                state.error = error.message;
+                loadingEl.style.display = 'none';
+                errorEl.style.display = 'block';
+                contentView.style.display = 'none';
+            }
+        };
+        
+        // Apply filters to the data
+        const applyFilters = () => {
+            let filtered = [...state.data];
+            const query = searchEl.value.toLowerCase().trim();
+            const country = countryEl.value;
+            const org = orgEl.value;
+            
+            if (query) {
+                filtered = filtered.filter(item => 
+                    Object.values(item).some(val => 
+                        String(val).toLowerCase().includes(query)
+                    )
+                );
+            }
+            
+            if (country) {
+                filtered = filtered.filter(item => 
+                    item[META.countryKey] === country
+                );
+            }
+            
+            if (org) {
+                filtered = filtered.filter(item => 
+                    item[META.orgKey] === org
+                );
+            }
+            
+            // Sort
+            const sortKey = sorterEl.value;
+            filtered.sort((a, b) => {
+                let valA, valB;
+                
+                switch(sortKey) {
+                    case 'name':
+                        valA = a[META.nameKey] || '';
+                        valB = b[META.nameKey] || '';
+                        break;
+                    case 'country':
+                        valA = a[META.countryKey] || '';
+                        valB = b[META.countryKey] || '';
+                        break;
+                    case 'org':
+                        valA = a[META.orgKey] || '';
+                        valB = b[META.orgKey] || '';
+                        break;
+                    case 'year':
+                        valA = a[META.yearKey] || '';
+                        valB = b[META.yearKey] || '';
+                        break;
+                    default:
+                        valA = a[META.nameKey] || '';
+                        valB = b[META.nameKey] || '';
+                }
+                
+                return valA.localeCompare(valB);
+            });
+            
+            state.filteredData = filtered;
+            return filtered;
+        };
+        
+        // Create DOM element helper
+        const create = (tag, className) => {
+            const el = document.createElement(tag);
+            if (className) el.className = className;
+            return el;
+        };
+        
+        // Render cards view
+        const renderCards = (rows) => {
+            cardsView.innerHTML = '';
+            
+            if (rows.length === 0) {
+                cardsView.innerHTML = '<div class="kv-row" style="padding: 20px; text-align: center; width: 100%;">No missionaries match your search criteria.</div>';
+                return;
+            }
+            
+            rows.forEach(r => {
+                const card = create("div", "card");
+                
+                // Header
+                const head = create("div", "card-head");
+                const img = create("div", "card-img");
+                img.style.background = "var(--card)";
+                img.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
+                head.appendChild(img);
+                
+                const htxt = create("div");
+                const title = create("div", "card-title");
+                title.textContent = r[META.nameKey] || 'Unnamed Missionary';
+                
+                const sub = create("div", "card-sub");
+                sub.textContent = [META.countryKey && r[META.countryKey], META.orgKey && r[META.orgKey]].filter(Boolean).join(" • ");
+                
+                htxt.appendChild(title);
+                htxt.appendChild(sub);
+                
+                const tags = create("div", "tags");
+                if (META.countryKey && r[META.countryKey]) {
+                    const t = create("span", "tag");
+                    t.textContent = r[META.countryKey];
+                    tags.appendChild(t);
+                }
+                if (META.orgKey && r[META.orgKey]) {
+                    const t = create("span", "tag");
+                    t.textContent = r[META.orgKey];
+                    tags.appendChild(t);
+                }
+                if (META.yearKey && r[META.yearKey]) {
+                    const t = create("span", "tag");
+                    t.textContent = r[META.yearKey];
+                    tags.appendChild(t);
+                }
+                htxt.appendChild(tags);
+                head.appendChild(htxt);
+                card.appendChild(head);
+                
+                // Body
+                const body = create("div", "card-body");
+                const kv = create("div", "kv");
+                
+                META.allKeys.forEach(k => {
+                    const val = r[k];
+                    if (!val || [META.nameKey, META.countryKey, META.orgKey, META.imageKey, META.yearKey].includes(k)) return;
+                    
+                    const row = create("div", "kv-row");
+                    const kk = create("div", "kv-key");
+                    kk.textContent = k.split('[')[0].trim();
+                    
+                    const vv = create("div", "kv-val");
+                    let v = (val ?? "").toString();
+                    
+                    if (/^https?:\/\//i.test(v)) {
+                        const a = create("a");
+                        a.href = v;
+                        a.target = "_blank";
+                        a.rel = "noopener";
+                        a.textContent = v;
+                        vv.appendChild(a);
+                    } else {
+                        vv.textContent = v;
+                    }
+                    
+                    row.appendChild(kk);
+                    row.appendChild(vv);
+                    kv.appendChild(row);
+                });
+                
+                body.appendChild(kv);
+                card.appendChild(body);
+                
+                // Footer
+                const foot = create("div", "card-foot");
+                if (META.websiteKey && r[META.websiteKey]) {
+                    const url = r[META.websiteKey].startsWith('http') ? 
+                        r[META.websiteKey] : `https://${r[META.websiteKey]}`;
+                    const a = create("a", "link-btn");
+                    a.href = url;
+                    a.target = "_blank";
+                    a.rel = "noopener";
+                    a.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 1 7 7l-3 3a5 5 0 0 1-7-7"/><path d="M14 11a5 5 0 0 0-7-7L4 7a5 5 0 0 0 7 7"/></svg> Website`;
+                    foot.appendChild(a);
+                }
+                
+                if (META.emailKey && r[META.emailKey]) {
+                    const a = create("a", "link-btn");
+                    a.href = `mailto:${r[META.emailKey]}`;
+                    a.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> Email`;
+                    foot.appendChild(a);
+                }
+                
+                card.appendChild(foot);
+                cardsView.appendChild(card);
+            });
+        };
+        
+        // Render table view
+        const renderTable = (rows) => {
+            tableView.innerHTML = "";
+            
+            if (rows.length === 0) {
+                tableView.innerHTML = '<tr><td colspan="' + META.allKeys.length + '" style="text-align: center; padding: 20px;">No missionaries match your search criteria.</td></tr>';
+                return;
+            }
+            
+            // Build head from all keys (ensure name first)
+            const keys = [...META.allKeys];
+            const nidx = keys.indexOf(META.nameKey);
+            if (nidx > 0) {
+                keys.splice(0, 0, keys.splice(nidx, 1)[0]);
+            }
+            
+            const thead = document.createElement("thead");
+            thead.innerHTML = "<tr>" + keys.map(k => `<th>${k.split('[')[0].trim()}</th>`).join("") + "</tr>";
+            
+            const tbody = document.createElement("tbody");
+            rows.forEach(r => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = keys.map(k => {
+                    let v = (r[k] ?? "").toString();
+                    if (/^https?:\/\//i.test(v)) {
+                        return `<td><a href="${v}" target="_blank" rel="noopener">${v}</a></td>`;
+                    }
+                    if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) {
+                        return `<td><a href="mailto:${v}">${v}</a></td>`;
+                    }
+                    return `<td>${v}</td>`;
+                }).join("");
+                tbody.appendChild(tr);
+            });
+            
+            tableView.appendChild(thead);
+            tableView.appendChild(tbody);
+        };
+        
+        // Main render function
+        const render = () => {
+            const rows = applyFilters();
+            
+            if (state.view === "table") {
+                cardsView.parentElement.classList.add("hidden");
+                tableView.parentElement.classList.remove("hidden");
+                renderTable(rows);
+            } else {
+                tableView.parentElement.classList.add("hidden");
+                cardsView.parentElement.classList.remove("hidden");
+                renderCards(rows);
+            }
+            
+            // Update URL
+            const p = new URLSearchParams();
+            if (searchEl.value) p.set("q", searchEl.value);
+            if (countryEl.value) p.set("country", countryEl.value);
+            if (orgEl.value) p.set("org", orgEl.value);
+            if (sorterEl.value !== "name") p.set("sort", sorterEl.value);
+            if (state.view !== "cards") p.set("view", state.view);
+            
+            // Handle GitHub Pages base URL
+            const baseUrl = getBaseUrl();
+            const newPath = baseUrl + (p.toString() ? `?${p.toString()}` : '');
+            history.replaceState(null, "", newPath);
+        };
+        
+        // Export data as CSV
+        const exportCSV = () => {
+            const rows = applyFilters();
+            const keys = META.allKeys;
+            
+            // Create CSV content
+            const csv = "sep=,\n" + 
+                keys.map(k => `"${k.split('[')[0].trim()}"`).join(",") + "\n" +
+                rows.map(r => keys.map(k => 
+                    `"${(r[k] ?? "").toString().replaceAll('"', '""')}"`
+                ).join(",")).join("\n");
+            
+            // Create and trigger download
+            const blob = new Blob([csv], {type: "text/csv;charset=utf-8"});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "missionaries_filtered.csv";
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            // Show toast notification
+            showToast("CSV export completed successfully!");
+        };
+        
+        // Show toast notification
+        const showToast = (message) => {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        };
+        
+        // Event handlers
+        document.querySelectorAll('.segment').forEach(segment => {
+            segment.addEventListener('click', () => {
+                document.querySelectorAll('.segment').forEach(s => {
+                    s.classList.remove('active');
+                    s.setAttribute('aria-pressed', 'false');
+                });
+                segment.classList.add('active');
+                segment.setAttribute('aria-pressed', 'true');
+                state.view = segment.dataset.view;
+                render();
+            });
+        });
+        
+        searchEl.addEventListener('input', render);
+        countryEl.addEventListener('change', render);
+        orgEl.addEventListener('change', render);
+        sorterEl.addEventListener('change', render);
+        exportBtn.addEventListener('click', exportCSV);
+        
+        if (retryBtn) {
+            retryBtn.addEventListener('click', loadData);
         }
-        row.appendChild(kk); row.appendChild(vv); kv.appendChild(row);
-      });
-
-      body.appendChild(kv);
-      card.appendChild(body);
-
-      const foot = create("div","card-foot");
-      if (META.websiteKey && r[META.websiteKey]) {
-        const url = toUrl(r[META.websiteKey]);
-        if (url) {
-          const a = create("a","link-btn"); a.href = url; a.target="_blank"; a.rel="noopener";
-          a.innerHTML = '🔗 Website'; foot.appendChild(a);
+        
+        // Initialize the app
+        const init = () => {
+            // Parse URL parameters
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('q')) searchEl.value = params.get('q');
+            if (params.get('country')) countryEl.value = params.get('country');
+            if (params.get('org')) orgEl.value = params.get('org');
+            if (params.get('sort')) sorterEl.value = params.get('sort');
+            if (params.get('view')) state.view = params.get('view');
+            
+            // Update view toggle buttons
+            if (state.view === 'table') {
+                document.querySelector('[data-view="table"]').classList.add('active');
+                document.querySelector('[data-view="cards"]').classList.remove('active');
+            }
+            
+            // Load data
+            loadData();
+        };
+        
+        // Handle GitHub Pages 404 redirects for SPA
+        if (window.location.hash === '#404') {
+            window.history.replaceState(null, '', window.location.pathname.replace('/404.html', ''));
         }
-      }
-      if (META.emailKey && r[META.emailKey]) {
-        const a = create("a","link-btn"); a.href = "mailto:"+r[META.emailKey]; a.textContent = "✉️ Email"; foot.appendChild(a);
-      }
-      if (META.phoneKey && r[META.phoneKey]) {
-        const a = create("a","link-btn"); a.href = "tel:"+r[META.phoneKey]; a.textContent = "📞 Call"; foot.appendChild(a);
-      }
-      card.appendChild(foot);
-
-      cardsGrid.appendChild(card);
-    });
-  }
-
-  function renderTable(rows) {
-    tableEl.innerHTML = "";
-    const keys = META.allKeys.slice();
-    // put the Name column first if present
-    const nidx = keys.indexOf(META.nameKey);
-    if (nidx > 0) keys.splice(0,0,keys.splice(nidx,1)[0]);
-
-    const thead = document.createElement("thead");
-    thead.innerHTML = "<tr>" + keys.map(k => `<th>${labelize(k)}</th>`).join("") + "</tr>";
-    const tbody = document.createElement("tbody");
-
-    rows.forEach(r => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = keys.map(k => {
-        const v = N(r[k]);
-        if (!v) return "<td></td>";
-        const url = toUrl(v);
-        if (url) return `<td><a href="${url}" target="_blank" rel="noopener">${v}</a></td>`;
-        if (emailRx.test(v)) return `<td><a href="mailto:${v}">${v}</a></td>`;
-        return `<td>${v}</td>`;
-      }).join("");
-      tbody.appendChild(tr);
-    });
-
-    tableEl.appendChild(thead);
-    tableEl.appendChild(tbody);
-  }
-
-  function updateURL() {
-    const p = new URLSearchParams();
-    if (searchEl.value) p.set("q", searchEl.value);
-    if (fieldSel.value) p.set("field", fieldSel.value);
-    if (hasCountry && countryEl.value) p.set("country", countryEl.value);
-    if (hasOrg && orgEl.value)         p.set("org", orgEl.value);
-    if (sorterEl.value) p.set("sort", sorterEl.value);
-    if (state.view !== "cards") p.set("view", state.view);
-    history.replaceState(null, "", "?"+p.toString());
-  }
-
-  function render() {
-    const rows = applyFilters();
-    if (state.view === "table") {
-      cardsGrid.parentElement.classList.add("hidden");
-      tableWrap.classList.remove("hidden");
-      renderTable(rows);
-    } else {
-      tableWrap.classList.add("hidden");
-      cardsGrid.parentElement.classList.remove("hidden");
-      renderCards(rows);
-    }
-    updateURL();
-  }
-
-  // -------- events
-  const rerender = debounce(render, 120);
-  searchEl.addEventListener("input", rerender);
-  fieldSel.addEventListener("change", render);
-  if (hasCountry) countryEl.addEventListener("change", render);
-  if (hasOrg)     orgEl.addEventListener("change", render);
-  sorterEl.addEventListener("change", render);
-  clearBtn.addEventListener("click", () => {
-    searchEl.value = "";
-    fieldSel.value = "";
-    if (hasCountry) countryEl.value = "";
-    if (hasOrg)     orgEl.value = "";
-    sorterEl.value = "";
-    render();
-    toast("Cleared filters");
-  });
-
-  viewToggle.querySelectorAll(".segment").forEach(seg => {
-    seg.addEventListener("click", () => {
-      viewToggle.querySelectorAll(".segment").forEach(s => s.classList.remove("active"));
-      seg.classList.add("active");
-      state.view = seg.getAttribute("data-view");
-      render();
-    });
-  });
-
-  copyLink?.addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText(location.href); toast("Link copied!"); }
-    catch { toast("Copy failed"); }
-  });
-
-  exportBtn?.addEventListener("click", () => {
-    const rows = applyFilters();
-    const keys = META.allKeys;
-    const csv = [keys.join(",")].concat(
-      rows.map(r => keys.map(k => `"${(N(r[k])).replaceAll('"','""')}"`).join(","))
-    ).join("\n");
-    const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url; a.download = "missionaries_filtered.csv"; a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  // first paint
-  render();
-})();
-</script>
-
+        
+        // Initialize when page is loaded
+        window.addEventListener('load', init);
+        
+        // Add proper title to the document for GitHub Pages
+        document.title = "Missionaries Directory | " + document.title;
+        
+        // Update Open Graph URL with actual repository URL
+        setTimeout(() => {
+            const ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) {
+                ogUrl.content = window.location.origin + getBaseUrl();
+            }
+        }, 100);
+    </script>
 </body>
 </html>
