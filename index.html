@@ -59,7 +59,23 @@ select{min-width:160px}
 .segment.active{background:var(--card)}
 #toast{position:fixed;right:16px;bottom:16px;background:var(--card);border:1px solid var(--border);padding:10px 12px;border-radius:10px;opacity:0;transform:translateY(8px);transition:all .25s}
 #toast.show{opacity:1;transform:none}
-</style>
+
+/* --- Added for better wrapping --- */
+.card-title, .card-sub, .kv-val, .kv-key, .table td, .table th, .link-btn, a {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  white-space: normal;
+}
+/* Allow long URLs to wrap gracefully */
+.table td a, .kv-val a {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+/* Avoid layout shift from unbroken strings */
+.card { min-width: 0; }
+
+\1
 </head>
 <body>
   <div class="container">
